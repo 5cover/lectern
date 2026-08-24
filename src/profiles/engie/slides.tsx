@@ -1,6 +1,7 @@
 import type { ComponentChildren } from 'preact'
 import type { StyleEscapeHatch, Transition } from '../../types'
 import { cx } from '../../components/util'
+import engieLogoWhite from './assets/engie-logo-white.svg'
 
 /*
  * ENGIE slide components — the layout philosophy of the ENGIE PowerPoint
@@ -40,6 +41,11 @@ function sectionAttrs(p: SlideBaseProps) {
  * rays paint transparent. Unique ids keep each ray's paint server on its own slide.
  */
 let rayId = 0
+
+function BrandLogo() {
+    return <img class="lectern-brand-logo" src={engieLogoWhite} alt="ENGIE" />
+}
+
 function Ray({ width, height }: { width: number; height: number }) {
     const gradientId = `present_gradient_ray_${rayId++}`
     return (
@@ -122,6 +128,7 @@ export function TitleSlide({
         <section
             class={cx('lectern-title-slide', cls)}
             {...sectionAttrs({ background: 'var(--lectern-navy)', ...rest })}>
+            <BrandLogo />
             {eyebrow ?
                 <p class="lectern-eyebrow">{eyebrow}</p>
             :   null}
@@ -164,6 +171,7 @@ export function SectionSlide({ title, subtitle, number, class: cls, ...rest }: S
         <section
             class={cx('lectern-section-slide', cls)}
             {...sectionAttrs({ background: 'var(--lectern-section-bg)', ...rest })}>
+            <BrandLogo />
             {number ?
                 <p class="lectern-section-number">{number}</p>
             :   null}

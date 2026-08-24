@@ -138,16 +138,16 @@
   justify-content: center;
   color: var(--lectern-on-brand);
 }
-.reveal.profile-engie .lectern-title-slide::before {
-  content: '';
+.reveal.profile-engie .lectern-brand-logo {
   position: absolute;
   top: 40px;
   left: var(--lectern-margin-x);
   width: 150px;
   height: 52px;
-  background: url('./assets/engie-logo-white.svg') no-repeat left top;
-  background-size: contain;
+  object-fit: contain;
+  object-position: left top;
 }
+
 .reveal.profile-engie .lectern-eyebrow {
   color: rgba(255, 255, 255, 0.75);
   font-weight: 700;
@@ -213,16 +213,7 @@
   justify-content: center;
   color: var(--lectern-on-brand);
 }
-.reveal.profile-engie .lectern-section-slide::before {
-  content: '';
-  position: absolute;
-  top: 40px;
-  left: var(--lectern-margin-x);
-  width: 150px;
-  height: 52px;
-  background: url('./assets/engie-logo-white.svg') no-repeat left top;
-  background-size: contain;
-}
+
 .reveal.profile-engie .lectern-section-number {
   font-weight: var(--lectern-heading-weight);
   font-size: 22px;

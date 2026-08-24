@@ -26,5 +26,6 @@ export default defineConfig({
     // Ship the raw CSS/asset files next to the bundle.
     loader: {
         '.css': 'copy',
+        '.svg': 'dataurl',
     },
 })
