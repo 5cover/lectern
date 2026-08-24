@@ -1,0 +1,12 @@
+{
+  // Build-specific configuration: extends the project typecheck config and
+  // adds emit settings. Used by the library build (tsup reads this).
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "test", "examples"]
+}

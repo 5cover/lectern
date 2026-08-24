@@ -1,0 +1,3 @@
+allowBuilds:
+  '@engie-group/fluid-design-system': true
+  esbuild: true

@@ -1,0 +1,518 @@
+/*
+ * ENGIE / Fluid profile — visual layer, matching the official ENGIE PowerPoint
+ * template geometry (sizes given in reveal's 1280×720 space; 1pt ≈ 1.333px).
+ *
+ * Principle: reference Fluid tokens where Fluid genuinely provides the value
+ * (ENGIE blue, fonts, weights); define directly only what Fluid lacks for decks
+ * (navy #17255F, accent palette, the deck type scale / margins / layout).
+ * Scoped under `.reveal.profile-engie`; the root class is set by the renderer.
+ */
+
+.reveal.profile-engie {
+  /* Navy is the template's primary; ENGIE blue (from Fluid) is the accent. */
+  --lectern-navy: #17255f;
+  --lectern-brand: var(--nj-core-color-engie-blue, #007bc5);
+  --lectern-teal: #00817d;
+  --lectern-purple: #6c4796;
+  --lectern-magenta: #e94287;
+  --lectern-coral: #eb5d40;
+
+  --lectern-ink: #1d1d1b;
+  --lectern-ink-soft: #5b6470;
+  --lectern-bg: #ffffff;
+  --lectern-bg-soft: #f4f6f9;
+  --lectern-line: #d6dde2;
+  --lectern-on-brand: #ffffff;
+  --lectern-green: #67ae6e;
+
+  --lectern-section-bg: var(--lectern-navy);
+
+  /* Typography: family/weight from Fluid; deck type scale defined here (px). */
+  --lectern-font: var(--nj-semantic-font-family-default);
+  --lectern-font-code: var(--nj-semantic-font-family-code);
+  --lectern-heading-weight: var(--nj-semantic-font-weight-bold, 700);
+
+  /* Template type scale (px @1280×720). */
+  --lectern-size-body: 20px; /* 15pt */
+  --lectern-size-title: 33px; /* 25pt content title */
+  --lectern-size-subtitle: 22px;
+  --lectern-size-cover-title: 64px; /* ~50pt */
+  --lectern-size-section-title: 46px; /* ~36pt */
+  --lectern-size-figure: 46px; /* ~36pt KPI number */
+  --lectern-size-footer: 11px; /* 8pt */
+
+  /* Slide margins (template insets are tight, ~28–40px). */
+  --lectern-margin-x: 56px;
+  --lectern-margin-top: 44px;
+
+  --lectern-gap: 28px;
+
+  /* reveal bridge */
+  --r-background-color: var(--lectern-bg);
+  --r-main-font: var(--lectern-font);
+  --r-main-font-size: var(--lectern-size-body);
+  --r-main-color: var(--lectern-ink);
+  --r-block-margin: 0.8em;
+  --r-heading-margin: 0 0 0.4em 0;
+  --r-heading-font: var(--lectern-font);
+  --r-heading-color: var(--lectern-navy);
+  --r-heading-line-height: 1.1;
+  --r-heading-letter-spacing: normal;
+  --r-heading-text-transform: none;
+  --r-heading-text-shadow: none;
+  --r-heading-font-weight: var(--lectern-heading-weight);
+  --r-code-font: var(--lectern-font-code);
+  --r-link-color: var(--lectern-brand);
+  --r-link-color-hover: var(--lectern-navy);
+  --r-selection-background-color: var(--lectern-brand);
+  --r-selection-color: #fff;
+  --r-overlay-element-bg-color: 0, 123, 197;
+  --r-overlay-element-fg-color: 240, 240, 240;
+
+  font-family: var(--lectern-font);
+  font-size: var(--lectern-size-body);
+  color: var(--lectern-ink);
+  font-weight: 400;
+}
+
+.reveal.profile-engie .slides {
+  text-align: left;
+}
+
+/* Top-anchored, full-height slides with template-tight margins (center:false). */
+.reveal.profile-engie .slides > section {
+  box-sizing: border-box;
+  height: 100%;
+  padding: var(--lectern-margin-top) var(--lectern-margin-x) 48px;
+}
+/* Cover + section carry the corner logo → clear the top. */
+.reveal.profile-engie .slides > section.lectern-title-slide,
+.reveal.profile-engie .slides > section.lectern-section-slide {
+  padding-top: 104px;
+}
+
+.reveal.profile-engie h1,
+.reveal.profile-engie h2,
+.reveal.profile-engie h3,
+.reveal.profile-engie h4 {
+  font-family: var(--lectern-font);
+  color: var(--lectern-navy);
+  font-weight: var(--lectern-heading-weight);
+  text-transform: none;
+  letter-spacing: normal;
+}
+.reveal.profile-engie a {
+  color: var(--lectern-brand);
+  text-decoration: none;
+}
+
+/* ---- Content slide ---- */
+.reveal.profile-engie .lectern-heading {
+  font-size: var(--lectern-size-title);
+  margin: 0 0 0.5em 0;
+}
+.reveal.profile-engie .lectern-kicker {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--lectern-brand);
+  margin: 0 0 0.5em 0;
+}
+.reveal.profile-engie .lectern-slide > .lectern-subtitle {
+  font-size: var(--lectern-size-subtitle);
+  color: var(--lectern-ink-soft);
+  margin: -0.3em 0 0.8em 0;
+  font-weight: 400;
+}
+.reveal.profile-engie .lectern-body {
+  font-size: var(--lectern-size-body);
+  line-height: 1.5;
+}
+
+/* ---- Cover: navy full-bleed, large white title, white logo ---- */
+.reveal.profile-engie .lectern-title-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--lectern-on-brand);
+}
+.reveal.profile-engie .lectern-title-slide::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: var(--lectern-margin-x);
+  width: 150px;
+  height: 52px;
+  background: url('./assets/engie-logo-white.svg') no-repeat left top;
+  background-size: contain;
+}
+.reveal.profile-engie .lectern-eyebrow {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin: 0 0 1.2rem 0;
+}
+.reveal.profile-engie .lectern-title {
+  font-family: var(--lectern-font);
+  font-weight: var(--lectern-heading-weight);
+  font-size: var(--lectern-size-cover-title);
+  line-height: 1.04;
+  margin: 0;
+  color: var(--lectern-on-brand);
+  max-width: 15em;
+  text-transform: uppercase;
+}
+.reveal.profile-engie .lectern-title-slide .lectern-subtitle {
+  font-size: 26px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0.7em 0 0 0;
+  font-weight: 400;
+  max-width: 34em;
+}
+
+/* ENGIE Fluid brand gradient ray: an inline SVG (see slides.tsx) with a fixed
+   intrinsic size, bleeding off the LEFT edge of the screen like the template's
+   left-anchored gradient rect. Size lives on the SVG; here we only position it
+   and stop flex parents from resizing it. */
+.reveal.profile-engie .lectern-ray {
+  display: block;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  /* pull left past the slide padding so it touches the screen edge (x=0) */
+  margin: 1.4rem 0 0 calc(-1 * var(--lectern-margin-x));
+}
+.reveal.profile-engie .lectern-title-slide .lectern-ray {
+  margin-top: 1.7rem;
+}
+.reveal.profile-engie .lectern-byline {
+  margin-top: 2rem;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.75);
+}
+.reveal.profile-engie .lectern-author {
+  font-weight: 700;
+  color: #fff;
+}
+.reveal.profile-engie .lectern-confidentiality {
+  position: absolute;
+  right: var(--lectern-margin-x);
+  bottom: 40px;
+  margin: 0;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---- Section divider: navy + white logo ---- */
+.reveal.profile-engie .lectern-section-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--lectern-on-brand);
+}
+.reveal.profile-engie .lectern-section-slide::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: var(--lectern-margin-x);
+  width: 150px;
+  height: 52px;
+  background: url('./assets/engie-logo-white.svg') no-repeat left top;
+  background-size: contain;
+}
+.reveal.profile-engie .lectern-section-number {
+  font-weight: var(--lectern-heading-weight);
+  font-size: 22px;
+  opacity: 0.55;
+  margin: 0 0 0.4rem 0;
+}
+.reveal.profile-engie .lectern-section-title {
+  color: var(--lectern-on-brand);
+  font-size: var(--lectern-size-section-title);
+  margin: 0;
+  text-transform: uppercase;
+}
+.reveal.profile-engie .lectern-section-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--lectern-size-subtitle);
+  margin-top: 0.6em;
+  font-weight: 400;
+}
+
+/* ---- Summary / agenda: numbered chapters in two columns ---- */
+.reveal.profile-engie .lectern-summary {
+  list-style: none;
+  margin: 0.4em 0 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7em 3em;
+}
+.reveal.profile-engie .lectern-summary-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.7em;
+  align-items: baseline;
+  padding: 0.35em 0;
+  border-top: 1px solid var(--lectern-line);
+}
+.reveal.profile-engie .lectern-summary-num {
+  font-weight: var(--lectern-heading-weight);
+  font-size: 30px;
+  color: var(--lectern-brand);
+  line-height: 1;
+}
+.reveal.profile-engie .lectern-summary-title {
+  font-weight: 700;
+  color: var(--lectern-navy);
+  font-size: 20px;
+}
+.reveal.profile-engie .lectern-summary-hint {
+  grid-column: 2;
+  font-size: 14px;
+  color: var(--lectern-ink-soft);
+}
+
+/* ---- Bullets ---- */
+.reveal.profile-engie .lectern-bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.reveal.profile-engie .lectern-bullets li {
+  position: relative;
+  padding-left: 1.4em;
+  margin: 0.45em 0;
+}
+.reveal.profile-engie .lectern-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0.1em;
+  top: 0.5em;
+  width: 0.42em;
+  height: 0.42em;
+  border-radius: 1px;
+  background: var(--lectern-brand);
+}
+.reveal.profile-engie ol.lectern-bullets {
+  counter-reset: lectern-li;
+}
+.reveal.profile-engie ol.lectern-bullets li::before {
+  counter-increment: lectern-li;
+  content: counter(lectern-li);
+  color: #fff;
+  font-size: 0.6em;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5em;
+  height: 1.5em;
+  top: 0.15em;
+  border-radius: 50%;
+}
+
+/* ---- Code ---- */
+.reveal.profile-engie pre.lectern-code {
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(23, 37, 95, 0.14);
+  border-radius: 6px;
+  font-size: 15px;
+  margin: 0.4em 0;
+}
+.reveal.profile-engie pre.lectern-code code {
+  border-radius: 6px;
+  padding: 0.9em 1.1em;
+  font-family: var(--lectern-font-code);
+  max-height: 62vh;
+}
+
+/* ---- Mermaid ---- */
+.reveal.profile-engie .lectern-mermaid-wrap {
+  width: 100%;
+  margin: 0.4em 0;
+  text-align: center;
+}
+.reveal.profile-engie .lectern-mermaid-wrap .mermaid {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: 100%;
+}
+.reveal.profile-engie .lectern-mermaid-wrap .mermaid svg {
+  width: 100% !important;
+  max-width: 1080px !important;
+  height: auto;
+  overflow: visible;
+  display: inline-block;
+  margin: 0 auto;
+}
+/* Keep mermaid labels on the profile font so measured/rendered widths agree. */
+.reveal.profile-engie .lectern-mermaid-wrap .mermaid text,
+.reveal.profile-engie .lectern-mermaid-wrap .mermaid foreignObject *,
+.reveal.profile-engie .lectern-mermaid-wrap .mermaid .nodeLabel,
+.reveal.profile-engie .lectern-mermaid-wrap .mermaid .edgeLabel,
+.reveal.profile-engie .lectern-mermaid-wrap .mermaid span {
+  font-family: var(--lectern-font) !important;
+  letter-spacing: normal !important;
+  white-space: nowrap !important;
+}
+.reveal.profile-engie .lectern-mermaid-wrap .mermaid foreignObject {
+  overflow: visible !important;
+}
+
+/* ---- Quote ---- */
+.reveal.profile-engie .lectern-quote {
+  border: 0;
+  box-shadow: none;
+  background: none;
+  border-left: 3px solid var(--lectern-brand);
+  padding: 0.2em 0 0.2em 1em;
+  margin: 0;
+}
+.reveal.profile-engie .lectern-quote-text {
+  font-size: 24px;
+  font-style: italic;
+  margin: 0;
+  color: var(--lectern-navy);
+  line-height: 1.35;
+}
+.reveal.profile-engie .lectern-quote-cite {
+  margin-top: 0.5em;
+  color: var(--lectern-ink-soft);
+  font-size: 15px;
+}
+
+/* ---- KPI / Metric ---- */
+.reveal.profile-engie .lectern-metric {
+  background: none;
+  border: 0;
+  border-top: 3px solid var(--lectern-brand);
+  border-radius: 0;
+  padding: 0.6em 0 0 0;
+  text-align: left;
+  box-shadow: none;
+}
+.reveal.profile-engie .lectern-metric-value {
+  font-weight: var(--lectern-heading-weight);
+  font-size: var(--lectern-size-figure);
+  color: var(--lectern-navy);
+  line-height: 1;
+}
+.reveal.profile-engie .lectern-metric-label {
+  font-size: 15px;
+  color: var(--lectern-ink-soft);
+  margin-top: 0.35em;
+}
+.reveal.profile-engie .lectern-metric-trend {
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 0.3em;
+}
+.reveal.profile-engie .lectern-metric-trend.is-positive {
+  color: var(--lectern-green);
+}
+.reveal.profile-engie .lectern-metric-trend.is-negative {
+  color: var(--lectern-coral);
+}
+.reveal.profile-engie .lectern-metric-trend.is-neutral {
+  color: var(--lectern-ink-soft);
+}
+
+/* ---- Horizontal timeline ---- */
+.reveal.profile-engie .lectern-timeline {
+  list-style: none;
+  margin: 1.4em 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0;
+}
+.reveal.profile-engie .lectern-timeline-item {
+  position: relative;
+  flex: 1 1 0;
+  padding: 1.5em 0.6em 0 0;
+  display: block;
+}
+/* the connecting rule sits at the dot row */
+.reveal.profile-engie .lectern-timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 0.35em;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--lectern-line);
+}
+.reveal.profile-engie .lectern-timeline-item:last-child::before {
+  right: auto;
+  width: 0.7em;
+}
+.reveal.profile-engie .lectern-timeline-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.7em;
+  height: 0.7em;
+  border-radius: 50%;
+  background: var(--lectern-brand);
+  z-index: 1;
+}
+.reveal.profile-engie .lectern-timeline-date {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--lectern-brand);
+}
+.reveal.profile-engie .lectern-timeline-title {
+  display: block;
+  font-weight: 700;
+  color: var(--lectern-navy);
+  font-size: 18px;
+  margin-top: 0.15em;
+}
+.reveal.profile-engie .lectern-timeline-desc {
+  display: block;
+  font-size: 14px;
+  color: var(--lectern-ink-soft);
+  margin-top: 0.1em;
+}
+
+/* ---- Lead ---- */
+.reveal.profile-engie .lectern-lead {
+  font-size: 24px;
+  color: var(--lectern-navy);
+  line-height: 1.4;
+}
+
+/* ---- Footer: 8pt navy, bottom-right (© ENGIE {year} - {title} - {date}) ---- */
+.reveal.profile-engie .lectern-footer {
+  position: fixed;
+  bottom: 14px;
+  right: 84px;
+  max-width: 70%;
+  display: flex;
+  gap: 0.2em;
+  justify-content: flex-end;
+  font-size: var(--lectern-size-footer);
+  color: var(--lectern-ink-soft);
+  z-index: 5;
+  pointer-events: none;
+}
+.reveal.profile-engie .lectern-footer .lectern-footer-brand {
+  font-weight: 700;
+  color: var(--lectern-navy);
+}
+
+@media print {
+  .reveal.profile-engie .lectern-footer {
+    position: absolute;
+  }
+}

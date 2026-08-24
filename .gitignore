@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# built decks / exports (regenerate with `lectern build` / `lectern pdf`)
+examples/**/dist/
+*.pdf
+
+# vite / tooling temp
+.lectern-tmp/
+.vite/
