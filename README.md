@@ -128,6 +128,7 @@ Components split by **who owns the layout decision**. Neutral, structure-only pr
 | `<Metric value label trend tone>` | KPI figure                                         |
 | `<Timeline items>`                | Opinionated **horizontal** timeline                |
 | `<Quote cite>` / `<Lead>`         | Emphasis                                           |
+| `<Star.Situation>` / `.Task` / `.Action` / `.Result` | STAR stages in normal flow, with no wrapper |
 
 ### Escape hatches
 

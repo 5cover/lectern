@@ -16,6 +16,7 @@
   --lectern-purple: #6c4796;
   --lectern-magenta: #e94287;
   --lectern-coral: #eb5d40;
+  --lectern-yellow: #f4c867;
 
   --lectern-ink: #1d1d1b;
   --lectern-ink-soft: #5b6470;
@@ -312,6 +313,64 @@
   height: 1.5em;
   top: 0.15em;
   border-radius: 50%;
+}
+
+/* ---- STAR ---- */
+.reveal.profile-engie .lectern-star-item {
+  --lectern-star-tone: var(--lectern-brand);
+
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7em;
+  margin: 0.65em 0;
+}
+.reveal.profile-engie .lectern-star-item.is-situation {
+  --lectern-star-tone: var(--lectern-coral);
+}
+.reveal.profile-engie .lectern-star-item.is-task {
+  --lectern-star-tone: var(--lectern-yellow);
+}
+.reveal.profile-engie .lectern-star-item.is-action {
+  --lectern-star-tone: var(--lectern-brand);
+}
+.reveal.profile-engie .lectern-star-item.is-result {
+  --lectern-star-tone: var(--lectern-green);
+}
+.reveal.profile-engie .lectern-star-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75em;
+  height: 1.75em;
+  border-radius: 50%;
+  background: var(--lectern-star-tone);
+  color: var(--lectern-navy);
+  font-size: 0.8em;
+  font-weight: 700;
+  line-height: 1;
+}
+.reveal.profile-engie .lectern-star-item.is-action .lectern-star-badge,
+.reveal.profile-engie .lectern-star-item.is-result .lectern-star-badge {
+  color: var(--lectern-on-brand);
+}
+.reveal.profile-engie .lectern-star-copy {
+  min-width: 0;
+}
+.reveal.profile-engie .lectern-star-label {
+  margin: 0;
+  color: var(--lectern-navy);
+  font-weight: 700;
+}
+.reveal.profile-engie .lectern-star-body {
+  margin-top: 0.1em;
+  color: var(--lectern-ink-soft);
+}
+.reveal.profile-engie .lectern-star-body > :first-child {
+  margin-top: 0;
+}
+.reveal.profile-engie .lectern-star-body > :last-child {
+  margin-bottom: 0;
 }
 
 /* ---- Code ---- */

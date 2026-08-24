@@ -6,6 +6,7 @@ import {
     Metric,
     SectionSlide,
     Slide,
+    Star,
     Summary,
     Timeline,
     TitleSlide,
@@ -236,5 +237,20 @@ describe('engie components', () => {
         )
         expect(slidesHtml.match(/lectern-timeline-item/g)?.length).toBe(2)
         expect(slidesHtml).toContain('lectern-timeline-dot')
+    })
+
+    it('Star stages render independently in normal slide flow', () => {
+        const { slidesHtml } = renderDeck(
+            <Deck title="t">
+                <Slide>
+                    <Star.Situation title="Contexte">Le besoin est dispersé.</Star.Situation>
+                    <Star.Task>Le rendre traçable.</Star.Task>
+                </Slide>
+            </Deck>
+        )
+        expect(slidesHtml.match(/lectern-star-item/g)?.length).toBe(2)
+        expect(slidesHtml).toContain('is-situation')
+        expect(slidesHtml).toContain('Situation : Contexte')
+        expect(slidesHtml).toContain('Tâche')
     })
 })

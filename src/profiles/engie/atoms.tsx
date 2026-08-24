@@ -31,6 +31,47 @@ export function Steps(props: Omit<BulletsProps, 'incremental'>) {
     return <Bullets {...props} incremental />
 }
 
+export interface StarItemProps extends StyleEscapeHatch {
+    /** Optional short qualifier shown after the STAR label. */
+    title?: ComponentChildren
+    children: ComponentChildren
+}
+
+type StarKind = 'situation' | 'task' | 'action' | 'result'
+
+function StarItem({
+    kind,
+    badge,
+    label,
+    title,
+    children,
+    class: cls,
+    style,
+}: StarItemProps & { kind: StarKind; badge: string; label: string }) {
+    return (
+        <div class={cx('lectern-star-item', `is-${kind}`, cls)} style={style}>
+            <span class="lectern-star-badge" aria-hidden="true">
+                {badge}
+            </span>
+            <div class="lectern-star-copy">
+                <p class="lectern-star-label">
+                    {label}
+                    {title ? <> : {title}</> : null}
+                </p>
+                <div class="lectern-star-body">{children}</div>
+            </div>
+        </div>
+    )
+}
+
+/** STAR stages. Use directly in the normal slide flow, without a parent wrapper. */
+export const Star = {
+    Situation: (props: StarItemProps) => <StarItem {...props} kind="situation" badge="S" label="Situation" />,
+    Task: (props: StarItemProps) => <StarItem {...props} kind="task" badge="T" label="Tâche" />,
+    Action: (props: StarItemProps) => <StarItem {...props} kind="action" badge="A" label="Action" />,
+    Result: (props: StarItemProps) => <StarItem {...props} kind="result" badge="R" label="Résultat" />,
+}
+
 /** KPI card: a large navy figure with a short label (ENGIE "9-10 Md€" style). */
 export interface MetricProps extends StyleEscapeHatch {
     value: ComponentChildren
