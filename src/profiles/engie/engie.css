@@ -310,8 +310,9 @@
 .reveal.profile-engie .lectern-star-item {
   --lectern-star-tone: var(--lectern-brand);
 
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
   gap: 0.7em;
   margin: 0.65em 0;
 }
@@ -328,12 +329,11 @@
   --lectern-star-tone: var(--lectern-green);
 }
 .reveal.profile-engie .lectern-star-badge {
-  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.75em;
-  height: 1.75em;
+  width: 2em;
+  height: 2em;
   border-radius: 50%;
   background: var(--lectern-star-tone);
   color: var(--lectern-navy);
@@ -341,8 +341,7 @@
   font-weight: 700;
   line-height: 1;
 }
-.reveal.profile-engie .lectern-star-item.is-action .lectern-star-badge,
-.reveal.profile-engie .lectern-star-item.is-result .lectern-star-badge {
+.reveal.profile-engie .lectern-star-item .lectern-star-badge {
   color: var(--lectern-on-brand);
 }
 .reveal.profile-engie .lectern-star-copy {
