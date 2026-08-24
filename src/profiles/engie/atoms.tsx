@@ -72,6 +72,43 @@ export const Star = {
     Result: (props: StarItemProps) => <StarItem {...props} kind="result" badge="R" label="Résultat" />,
 }
 
+/** Editorial SWOT matrix with four contextual quadrants around the S/W/O/T marker. */
+export interface SwotProps extends StyleEscapeHatch {
+    strengths: ComponentChildren
+    weaknesses: ComponentChildren
+    opportunities: ComponentChildren
+    threats: ComponentChildren
+}
+
+export function Swot({ strengths, weaknesses, opportunities, threats, class: cls, style }: SwotProps) {
+    return (
+        <div class={cx('lectern-swot', cls)} style={style}>
+            <div class="lectern-swot-cell is-strengths">
+                <h3 class="lectern-swot-title">Forces</h3>
+                <div class="lectern-swot-reasons">{strengths}</div>
+            </div>
+            <div class="lectern-swot-cell is-weaknesses">
+                <h3 class="lectern-swot-title">Faiblesses</h3>
+                <div class="lectern-swot-reasons">{weaknesses}</div>
+            </div>
+            <div class="lectern-swot-cell is-opportunities">
+                <h3 class="lectern-swot-title">Opportunités</h3>
+                <div class="lectern-swot-reasons">{opportunities}</div>
+            </div>
+            <div class="lectern-swot-cell is-threats">
+                <h3 class="lectern-swot-title">Menaces</h3>
+                <div class="lectern-swot-reasons">{threats}</div>
+            </div>
+            <div class="lectern-swot-center" aria-hidden="true">
+                <span>S</span>
+                <span>W</span>
+                <span>O</span>
+                <span>T</span>
+            </div>
+        </div>
+    )
+}
+
 /** KPI card: a large navy figure with a short label (ENGIE "9-10 Md€" style). */
 export interface MetricProps extends StyleEscapeHatch {
     value: ComponentChildren

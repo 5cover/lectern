@@ -11,9 +11,11 @@ export const engie: Profile = {
     description:
         'ENGIE corporate house style (Fluid design system): navy #17255F & ENGIE blue #007bc5, Fluid typography, 16:9.',
     reveal: {
-        // 16:9, matching the template (12192000 × 6858000 EMU).
-        width: 1280,
-        height: 720,
+        // The browser viewport is the slide canvas. Reveal consequently writes
+        // the current viewport dimensions to `.slides`, rather than a fixed
+        // 1280×720 canvas which it has to scale afterwards.
+        width: '100%',
+        height: '100%',
         slideNumber: 'c/t',
         // Corporate decks are top-anchored (title at top, logo pinned to the corner),
         // not vertically centred — so disable reveal's vertical centering.

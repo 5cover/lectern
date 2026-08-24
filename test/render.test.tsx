@@ -7,6 +7,7 @@ import {
     SectionSlide,
     Slide,
     Star,
+    Swot,
     Summary,
     Timeline,
     TitleSlide,
@@ -186,8 +187,8 @@ describe('profiles', () => {
                 <Slide heading="H" />
             </Deck>
         )
-        // profile default (width 1280) lectern, deck override (slideNumber:false) wins
-        expect(meta.reveal?.width).toBe(1280)
+        // Profile default (viewport-width canvas), deck override (slideNumber:false) wins.
+        expect(meta.reveal?.width).toBe('100%')
         expect(meta.reveal?.slideNumber).toBe(false)
     })
 
@@ -252,5 +253,20 @@ describe('engie components', () => {
         expect(slidesHtml).toContain('is-situation')
         expect(slidesHtml).toContain('Situation : Contexte')
         expect(slidesHtml).toContain('Tâche')
+    })
+
+    it('Swot renders the four quadrants around its central marker', () => {
+        const { slidesHtml } = renderDeck(
+            <Deck title="t">
+                <Slide>
+                    <Swot strengths="forces" weaknesses="faiblesses" opportunities="opportunités" threats="menaces" />
+                </Slide>
+            </Deck>
+        )
+        expect(slidesHtml).toContain('lectern-swot')
+        expect(slidesHtml.match(/lectern-swot-cell/g)?.length).toBe(4)
+        expect(slidesHtml).toContain('lectern-swot-center')
+        expect(slidesHtml).toContain('Forces')
+        expect(slidesHtml).toContain('Menaces')
     })
 })

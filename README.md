@@ -129,6 +129,7 @@ Components split by **who owns the layout decision**. Neutral, structure-only pr
 | `<Timeline items>`                | Opinionated **horizontal** timeline                |
 | `<Quote cite>` / `<Lead>`         | Emphasis                                           |
 | `<Star.Situation>` / `.Task` / `.Action` / `.Result` | STAR stages in normal flow, with no wrapper |
+| `<Swot strengths weaknesses opportunities threats>` | Editorial SWOT matrix with a central S/W/O/T marker |
 
 ### Escape hatches
 
