@@ -1,4 +1,4 @@
-// Re-export Preact's automatic JSX runtime so decks may set
-// `jsxImportSource: "lectern"` if they prefer. Authoring with
-// `jsxImportSource: "preact"` works identically (Preact is a dependency).
+// Lectern owns the automatic JSX runtime used by decks. Re-exporting Preact's
+// JSX namespace is required for TypeScript to type intrinsic elements.
 export { Fragment, jsx, jsx as jsxDEV, jsxs } from 'preact/jsx-runtime'
+export type { JSX } from 'preact/jsx-runtime'

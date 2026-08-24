@@ -1,4 +1,3 @@
-import preact from '@preact/preset-vite'
 import http from 'node:http'
 import { createServer } from 'vite'
 import { htmlShell } from '../render/template'
@@ -16,9 +15,9 @@ export async function dev({ deckPath, port }: DevOptions): Promise<void> {
         root: process.cwd(),
         logLevel: 'warn',
         appType: 'custom',
+        esbuild: { jsx: 'automatic', jsxImportSource: 'lectern' },
         resolve: { alias: presentAlias() },
         server: { middlewareMode: true, fs: { allow: fsAllow(deckPath) } },
-        plugins: [preact()],
     })
 
     const clientTag = `<script type="module" src="/@fs/${posix(CLIENT_ENTRY)}"></script>`

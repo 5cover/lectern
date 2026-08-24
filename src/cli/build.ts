@@ -1,4 +1,3 @@
-import preact from '@preact/preset-vite'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { createServer, build as viteBuild } from 'vite'
@@ -21,9 +20,9 @@ export async function renderStatic(deckPath: string): Promise<RenderedDeck> {
         root: process.cwd(),
         logLevel: 'warn',
         appType: 'custom',
+        esbuild: { jsx: 'automatic', jsxImportSource: 'lectern' },
         resolve: { alias: presentAlias() },
         server: { middlewareMode: true, fs: { allow: fsAllow(deckPath) } },
-        plugins: [preact()],
     })
     try {
         return await renderDeckViaVite(server, deckPath)
@@ -61,8 +60,9 @@ export async function build({ deckPath, outDir, singleFile = true }: BuildOption
             configFile: false,
             root: workDir,
             logLevel: 'warn',
+            esbuild: { jsx: 'automatic', jsxImportSource: 'lectern' },
             resolve: { alias: presentAlias() },
-            plugins: [preact(), ...(singleFile ? [viteSingleFile()] : [])],
+            plugins: singleFile ? [viteSingleFile()] : [],
             build: {
                 outDir: outAbs,
                 emptyOutDir: true,

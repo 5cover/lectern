@@ -51,6 +51,7 @@ const ENGIE_MODULE = firstExisting(
 export function presentAlias(): Array<{ find: RegExp; replacement: string }> {
     return [
         { find: /^lectern\/jsx-runtime$/, replacement: JSX_MODULE },
+        { find: /^lectern\/jsx-dev-runtime$/, replacement: JSX_MODULE },
         { find: /^lectern\/engie$/, replacement: ENGIE_MODULE },
         { find: /^lectern$/, replacement: INDEX_MODULE },
     ]

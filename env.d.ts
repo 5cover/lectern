@@ -1,4 +1,2 @@
-/// <reference types="vite/client" />
-
-// Ambient declarations for Vite's asset query suffixes (`?raw`, `?url`, …) and
-// CSS/asset imports, so decks that import e.g. `./diagram.svg?raw` typecheck.
+// Consumer Vite asset typings are exposed through `lectern/vite-env` and its
+// exported authoring tsconfig. This file remains for the repository's tooling.

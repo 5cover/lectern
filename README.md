@@ -89,11 +89,16 @@ Every component carries JSDoc, so your editor shows what each one does and which
 
 ## Authoring with TSX
 
-Set your project's `tsconfig.json` to use Preact's JSX runtime:
+Extend Lectern's authoring config in your project's `tsconfig.json`:
 
 ```jsonc
-{ "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" } }
+{
+  "extends": "lectern/tsconfig.json",
+  "include": ["deck.tsx"]
+}
 ```
+
+The exported config sets Lectern's automatic JSX runtime and Vite asset typings, so imports such as `./diagram.svg?raw` are typed as strings. Keep your project's own target, strictness, module settings, and include paths alongside the `extends` entry. If you override `compilerOptions.types`, include `lectern/vite-env` in that list. Typecheck the project configuration with `pnpm exec tsc --noEmit`; do not pass a source filename directly to `tsc`, because that bypasses `tsconfig.json`.
 
 Components render to static HTML at build time (via `preact-render-to-string`); there is no Preact runtime in the browser. reveal.js and Mermaid run client-side on the produced HTML.
 

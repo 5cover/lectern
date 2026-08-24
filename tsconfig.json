@@ -5,7 +5,7 @@
     "moduleResolution": "Bundler",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
+    "jsxImportSource": "lectern",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -21,7 +21,6 @@
     // Inside this repo a deck imports the bare `lectern` specifier, which the
     // package's own exports map can't resolve to itself. Point it at source so
     // examples typecheck.
-    "baseUrl": ".",
     "paths": {
       "lectern": ["./src/index.ts"],
       "lectern/jsx-runtime": ["./src/jsx-runtime.ts"],
