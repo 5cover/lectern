@@ -42,8 +42,8 @@ function sectionAttrs(p: SlideBaseProps) {
  */
 let rayId = 0
 
-function BrandLogo() {
-    return <img class="lectern-brand-logo" src={engieLogoWhite} alt="ENGIE" />
+function BrandLogo({ height }: { height: number }) {
+    return <img class="lectern-brand-logo" src={engieLogoWhite} height={height} alt="ENGIE" />
 }
 
 function Ray({ width, height }: { width: number; height: number }) {
@@ -101,9 +101,11 @@ export function Slide({ heading, logo, subtitle, kicker, children, class: cls, .
                             <p class="lectern-subtitle">{subtitle}</p>
                         :   null}
                     </div>
-                    {logo ? <aside class="lectern-slide-logo">{logo}</aside> : null}
+                    {logo ?
+                        <aside class="lectern-slide-logo">{logo}</aside>
+                    :   null}
                 </header>
-                {children}
+                <main class="lectern-slide-main">{children}</main>
             </div>
         </section>
     )
@@ -122,6 +124,7 @@ export interface TitleSlideProps extends SlideBaseProps {
     /** Full-width panel that occupies the remaining lower part of the cover. */
     footer?: ComponentChildren
     children?: ComponentChildren
+    logoHeight: number
 }
 
 export function TitleSlide({
@@ -134,14 +137,15 @@ export function TitleSlide({
     footer,
     children,
     class: cls,
+    logoHeight,
     ...rest
 }: TitleSlideProps) {
     return (
         <section
             class={cx('lectern-title-slide', footer ? 'has-footer' : false, cls)}
             {...sectionAttrs({ background: 'var(--lectern-navy)', ...rest })}>
-            <BrandLogo />
             <div class="lectern-title-content">
+                <BrandLogo height={logoHeight} />
                 {eyebrow ?
                     <p class="lectern-eyebrow">{eyebrow}</p>
                 :   null}
@@ -181,14 +185,15 @@ export interface SectionSlideProps extends SlideBaseProps {
     subtitle?: ComponentChildren
     /** Section number, e.g. "02". */
     number?: ComponentChildren
+    logoHeight: number
 }
 
-export function SectionSlide({ title, subtitle, number, class: cls, ...rest }: SectionSlideProps) {
+export function SectionSlide({ title, subtitle, number, class: cls, logoHeight, ...rest }: SectionSlideProps) {
     return (
         <section
             class={cx('lectern-section-slide', cls)}
             {...sectionAttrs({ background: 'var(--lectern-section-bg)', ...rest })}>
-            <BrandLogo />
+            <BrandLogo height={logoHeight} />
             {number ?
                 <p class="lectern-section-number">{number}</p>
             :   null}

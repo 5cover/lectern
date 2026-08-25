@@ -63,7 +63,7 @@ export function Columns({ children, gap, align = 'stretch', ratio, tracks, fill 
     }
     return (
         <div class={cx('lectern-columns', fill && 'is-fill', cls)} style={mergeStyle(base, style)}>
-            {cols.map((child, i) => (
+            {usesGrid ? cols : cols.map((child, i) => (
                 <div
                     class="lectern-col"
                     style={{

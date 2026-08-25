@@ -148,9 +148,17 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 /* Reveal owns the section display and explicitly restores it to `block` while
    loading slides. This inner container owns the content geometry instead. */
 .reveal.profile-engie .lectern-slide-content {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  align-items: stretch;
+  height: 100%;
+  min-height: 0;
+}
+.reveal.profile-engie .lectern-slide-main {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  justify-content: center;
+  min-width: 0;
   min-height: 0;
 }
 .reveal.profile-engie .lectern-slide-header {
@@ -194,9 +202,8 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 .reveal.profile-engie .lectern-brand-logo {
   position: absolute;
   top: 40px;
-  left: var(--lectern-margin-x);
-  width: 150px;
   height: 52px;
+  width: 150px;
   object-fit: contain;
   object-position: left top;
 }
@@ -285,7 +292,6 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 .reveal.profile-engie .lectern-title-affiliation img {
   display: block;
   width: auto;
-  height: 52px;
   object-fit: contain;
 }
 
@@ -556,15 +562,17 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   margin: 0;
   border: 0;
   width: 100%;
-  max-height: inherit;
+  max-height: 100%;
 }
 .reveal.profile-engie .mermaid svg {
   display: block;
   width: auto;
   max-width: 100%;
   height: 100%;
+  max-height: 100%;
   overflow: visible;
 }
+
 
 .reveal.profile-engie .lectern-columns.is-fill,
 .reveal.profile-engie .lectern-stack.is-fill {
@@ -573,6 +581,19 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   max-width: 100%;
   max-height: 100%;
   margin: 0;
+}
+/* In a height-filling grid, a Gantt derives its width from the height that is
+   available to it. The other grid track consequently receives the remainder. */
+.reveal.profile-engie .lectern-columns.is-fill > pre.mermaid {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  width: auto;
+}
+.reveal.profile-engie .lectern-columns.is-fill > pre.mermaid svg {
+  width: auto;
+  height: 100%;
+  max-height: 100%;
 }
 /* ---- Quote ---- */
 .reveal.profile-engie .lectern-figure {
@@ -639,6 +660,40 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 }
 .reveal.profile-engie .lectern-metric-trend.is-neutral {
   color: var(--lectern-ink-soft);
+}
+
+/* ---- Collaborator ---- */
+.reveal.profile-engie .lectern-collaborator {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: center;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  background: var(--lectern-bg-soft);
+  border-top: 2px solid var(--lectern-brand);
+}
+.reveal.profile-engie .lectern-collaborator img {
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.reveal.profile-engie .lectern-collaborator-name,
+.reveal.profile-engie .lectern-collaborator-role {
+  display: block;
+}
+.reveal.profile-engie .lectern-collaborator-name {
+  color: var(--lectern-navy);
+  font-size: 14px;
+  line-height: 1.15;
+}
+.reveal.profile-engie .lectern-collaborator-role {
+  margin-top: 0.18rem;
+  color: var(--lectern-ink-soft);
+  font-size: 11px;
+  line-height: 1.25;
 }
 
 /* ---- Horizontal timeline ---- */

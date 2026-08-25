@@ -130,6 +130,25 @@ export function Metric({ value, label, trend, tone = 'neutral', class: cls, styl
     )
 }
 
+/** Compact identity card for a person collaborating on the work presented. */
+export interface CollaboratorProps extends StyleEscapeHatch {
+    name: ComponentChildren
+    role: ComponentChildren
+    portrait: string
+}
+
+export function Collaborator({ name, role, portrait, class: cls, style }: CollaboratorProps) {
+    return (
+        <div class={cx('lectern-collaborator', cls)} style={style}>
+            <img src={portrait} alt={`Portrait de ${typeof name === 'string' ? name : ''}`} />
+            <div>
+                <strong class="lectern-collaborator-name">{name}</strong>
+                <span class="lectern-collaborator-role">{role}</span>
+            </div>
+        </div>
+    )
+}
+
 /**
  * Opinionated **horizontal** timeline: milestones laid out left→right along a
  * rule, each with a date, title and optional description below the node.

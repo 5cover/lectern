@@ -27,8 +27,17 @@ export type {
     Confidentiality,
 } from './slides'
 
-export { Bullets, Steps, Star, Swot, Metric, Timeline, Quote, Lead } from './atoms'
-export type { BulletsProps, StarItemProps, SwotProps, MetricProps, TimelineProps, TimelineItem, QuoteProps } from './atoms'
+export { Bullets, Steps, Star, Swot, Metric, Collaborator, Timeline, Quote, Lead } from './atoms'
+export type {
+    BulletsProps,
+    StarItemProps,
+    SwotProps,
+    MetricProps,
+    CollaboratorProps,
+    TimelineProps,
+    TimelineItem,
+    QuoteProps,
+} from './atoms'
 
 // The profile metadata (rules / reveal config / label).
 export { engie } from './profile'
