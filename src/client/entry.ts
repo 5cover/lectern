@@ -64,7 +64,7 @@ async function main() {
         securityLevel: 'loose',
         theme: 'base',
         fontFamily: font,
-        flowchart: { htmlLabels: false, useMaxWidth: true, padding: 10, nodeSpacing: 50, rankSpacing: 55 },
+        flowchart: { htmlLabels: false, useMaxWidth: false, padding: 10, nodeSpacing: 50, rankSpacing: 55 },
         themeVariables: {
             fontFamily: font,
             primaryColor: bgSoft,
@@ -101,12 +101,32 @@ async function main() {
         } catch (err) {
             console.error('[lectern] mermaid render error', err)
         }
+        // Mermaid appends a shared tooltip to <body>. Its default absolute
+        // position extends the document by a few pixels, which becomes a
+        // trailing blank PDF page in print mode. Keep it available for hover
+        // interactions without letting it participate in document height.
+        document.querySelectorAll<HTMLElement>('body > .mermaidTooltip').forEach(tooltip => {
+            tooltip.style.position = 'fixed'
+        })
         deck.layout()
     }
 
     const isPrint = /print-pdf/.test(location.search)
     if (isPrint) {
+        const formatPdfSlideNumbers = () => {
+            const pages = Array.from(document.querySelectorAll<HTMLElement>('.pdf-page'))
+            pages.forEach((page, index) => {
+                const number = page.querySelector<HTMLElement>('.slide-number-pdf')
+                if (number) number.textContent = `${index + 1} / ${pages.length}`
+            })
+        }
+        deck.on('pdf-ready', formatPdfSlideNumbers)
         await renderMermaid(document)
+        // Reveal's PDF renderer ignores the `c/t` slide-number format and
+        // injects a bare sequential number into each generated `.pdf-page`.
+        // Its asynchronous `pdf-ready` event is the point at which the total
+        // number of exported pages is known.
+        formatPdfSlideNumbers()
     } else {
         await renderMermaid(deck.getCurrentSlide())
         deck.on('slidechanged', event => {

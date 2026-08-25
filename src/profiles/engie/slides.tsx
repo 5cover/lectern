@@ -76,6 +76,8 @@ export type Confidentiality = 'Non-confidentiel' | 'Confidentiel' | 'Strictement
 export interface SlideProps extends SlideBaseProps {
     /** Slide title (~25pt navy). */
     heading?: ComponentChildren
+    /** Semantic mark rendered in the top-right corner of the slide header. */
+    logo?: ComponentChildren
     /** Second-level title, rendered under the heading (use sparingly). */
     subtitle?: ComponentChildren
     /** Small uppercase eyebrow above the heading. */
@@ -83,19 +85,26 @@ export interface SlideProps extends SlideBaseProps {
     children?: ComponentChildren
 }
 
-export function Slide({ heading, subtitle, kicker, children, class: cls, ...rest }: SlideProps) {
+export function Slide({ heading, logo, subtitle, kicker, children, class: cls, ...rest }: SlideProps) {
     return (
         <section class={cx('lectern-slide', cls)} {...sectionAttrs(rest)}>
-            {kicker ?
-                <p class="lectern-kicker">{kicker}</p>
-            :   null}
-            {heading ?
-                <h2 class="lectern-heading">{heading}</h2>
-            :   null}
-            {subtitle ?
-                <p class="lectern-subtitle">{subtitle}</p>
-            :   null}
-            <div class="lectern-body">{children}</div>
+            <div class="lectern-slide-content">
+                <header class="lectern-slide-header">
+                    <div class="lectern-slide-header-copy">
+                        {kicker ?
+                            <p class="lectern-kicker">{kicker}</p>
+                        :   null}
+                        {heading ?
+                            <h2 class="lectern-heading">{heading}</h2>
+                        :   null}
+                        {subtitle ?
+                            <p class="lectern-subtitle">{subtitle}</p>
+                        :   null}
+                    </div>
+                    {logo ? <aside class="lectern-slide-logo">{logo}</aside> : null}
+                </header>
+                {children}
+            </div>
         </section>
     )
 }
@@ -110,6 +119,8 @@ export interface TitleSlideProps extends SlideBaseProps {
     eyebrow?: ComponentChildren
     /** Confidentiality level shown bottom-right (ENGIE requirement). */
     confidentiality?: Confidentiality
+    /** Full-width panel that occupies the remaining lower part of the cover. */
+    footer?: ComponentChildren
     children?: ComponentChildren
 }
 
@@ -120,40 +131,46 @@ export function TitleSlide({
     date,
     eyebrow,
     confidentiality,
+    footer,
     children,
     class: cls,
     ...rest
 }: TitleSlideProps) {
     return (
         <section
-            class={cx('lectern-title-slide', cls)}
+            class={cx('lectern-title-slide', footer ? 'has-footer' : false, cls)}
             {...sectionAttrs({ background: 'var(--lectern-navy)', ...rest })}>
             <BrandLogo />
-            {eyebrow ?
-                <p class="lectern-eyebrow">{eyebrow}</p>
-            :   null}
-            <h1 class="lectern-title">{title}</h1>
-            <Ray width={720} height={26} />
-            {subtitle ?
-                <p class="lectern-subtitle">{subtitle}</p>
-            :   null}
-            {(author || date) && (
-                <p class="lectern-byline">
-                    {author ?
-                        <span class="lectern-author">{author}</span>
-                    :   null}
-                    {author && date ?
-                        <span class="lectern-sep"> · </span>
-                    :   null}
-                    {date ?
-                        <span class="lectern-date">{date}</span>
-                    :   null}
-                </p>
-            )}
+            <div class="lectern-title-content">
+                {eyebrow ?
+                    <p class="lectern-eyebrow">{eyebrow}</p>
+                :   null}
+                <h1 class="lectern-title">{title}</h1>
+                <Ray width={720} height={26} />
+                {subtitle ?
+                    <p class="lectern-subtitle">{subtitle}</p>
+                :   null}
+                {(author || date) && (
+                    <p class="lectern-byline">
+                        {author ?
+                            <span class="lectern-author">{author}</span>
+                        :   null}
+                        {author && date ?
+                            <span class="lectern-sep"> · </span>
+                        :   null}
+                        {date ?
+                            <span class="lectern-date">{date}</span>
+                        :   null}
+                    </p>
+                )}
+                {children}
+            </div>
             {confidentiality ?
                 <p class="lectern-confidentiality">{confidentiality}</p>
             :   null}
-            {children}
+            {footer ?
+                <div class="lectern-title-footer">{footer}</div>
+            :   null}
         </section>
     )
 }

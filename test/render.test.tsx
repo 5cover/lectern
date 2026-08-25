@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { Code, Columns, Deck, Mermaid, Notes, Raw, getProfile, renderDeck, renderToHtml } from '../src/index'
+import { Code, Columns, Deck, Mermaid, Notes, Raw, Stack, getProfile, renderDeck, renderToHtml } from '../src/index'
 import {
     Bullets,
     Deck as EngieDeck,
@@ -111,7 +111,7 @@ describe('renderDeck', () => {
         const { slidesHtml } = renderDeck(
             <Deck title="t">
                 <Slide>
-                    <Columns ratio={[2, 1]}>
+                    <Columns ratio={[2, 1]} fill>
                         <Metric value="12" label="flows" trend="+4" tone="positive" />
                         <div>right</div>
                     </Columns>
@@ -119,8 +119,36 @@ describe('renderDeck', () => {
             </Deck>
         )
         expect(slidesHtml).toContain('lectern-columns')
+        expect(slidesHtml).toContain('lectern-columns is-fill')
         expect(slidesHtml).toContain('lectern-metric-value')
         expect(slidesHtml).toContain('is-positive')
+    })
+
+    it('renders content-sized grid columns', () => {
+        const { slidesHtml } = renderDeck(
+            <Deck title="t">
+                <Slide>
+                    <Columns tracks={['fit-content(20ch)', 'minmax(0, 1fr)']}>
+                        <div>text</div>
+                        <div>diagram</div>
+                    </Columns>
+                </Slide>
+            </Deck>
+        )
+        expect(slidesHtml).toContain('display:grid')
+        expect(slidesHtml).toContain('grid-template-columns:fit-content(20ch) minmax(0, 1fr)')
+    })
+
+    it('renders a height-filling stack', () => {
+        const { slidesHtml } = renderDeck(
+            <Deck title="t">
+                <Slide>
+                    <Stack fill>content</Stack>
+                </Slide>
+            </Deck>
+        )
+        expect(slidesHtml).toContain('lectern-stack is-fill')
+        expect(slidesHtml).toContain('flex:1 1 0')
     })
 
     it('renders section dividers and title slides', () => {

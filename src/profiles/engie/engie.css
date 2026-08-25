@@ -15,8 +15,8 @@
   --lectern-teal: #00817d;
   --lectern-purple: #6c4796;
   --lectern-magenta: #e94287;
-  --lectern-coral: #eb5d40;
-  --lectern-yellow: #f4c867;
+  --lectern-coral: #f25022;
+  --lectern-yellow: #ffb900;
 
   --lectern-ink: #1d1d1b;
   --lectern-ink-soft: #5b6470;
@@ -24,7 +24,7 @@
   --lectern-bg-soft: #f4f6f9;
   --lectern-line: #d6dde2;
   --lectern-on-brand: #ffffff;
-  --lectern-green: #67ae6e;
+  --lectern-green: #7fba00;
 
   --lectern-section-bg: var(--lectern-navy);
 
@@ -74,6 +74,7 @@
   font-size: var(--lectern-size-body);
   color: var(--lectern-ink);
   font-weight: 400;
+  line-height: 1.5;
 }
 
 .reveal.profile-engie .slides {
@@ -92,6 +93,23 @@
   padding-top: 104px;
 }
 
+/* Reveal's print view reparents slides into `.pdf-page` and resets section
+   padding and display with `!important`. These narrowly scoped overrides
+   restore the profile's geometry for PDF pages. */
+html.reveal-print .reveal.profile-engie .pdf-page > section {
+  height: 100% !important;
+  padding: var(--lectern-margin-top) var(--lectern-margin-x) 48px !important;
+}
+html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-title-slide,
+html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slide {
+  padding-top: 104px !important;
+}
+html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-slide,
+html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-title-slide,
+html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slide {
+  display: flex !important;
+}
+
 .reveal.profile-engie h1,
 .reveal.profile-engie h2,
 .reveal.profile-engie h3,
@@ -108,10 +126,6 @@
 }
 
 /* ---- Content slide ---- */
-.reveal.profile-engie .lectern-slide {
-  display: flex;
-  flex-direction: column;
-}
 .reveal.profile-engie .lectern-heading {
   font-size: var(--lectern-size-title);
   margin: 0 0 0.5em 0;
@@ -124,20 +138,40 @@
   color: var(--lectern-brand);
   margin: 0 0 0.5em 0;
 }
-.reveal.profile-engie .lectern-slide > .lectern-subtitle {
+.reveal.profile-engie .lectern-slide-header-copy > .lectern-subtitle {
   font-size: var(--lectern-size-subtitle);
   color: var(--lectern-ink-soft);
   margin: -0.3em 0 0.8em 0;
   font-weight: 400;
 }
-.reveal.profile-engie .lectern-body {
+
+/* Reveal owns the section display and explicitly restores it to `block` while
+   loading slides. This inner container owns the content geometry instead. */
+.reveal.profile-engie .lectern-slide-content {
   display: flex;
-  flex: 1 1 auto;
-  min-height: 0;
   flex-direction: column;
-  justify-content: center;
-  font-size: var(--lectern-size-body);
-  line-height: 1.5;
+  height: 100%;
+  min-height: 0;
+}
+.reveal.profile-engie .lectern-slide-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 1rem;
+}
+.reveal.profile-engie .lectern-slide-header-copy {
+  min-width: 0;
+}
+.reveal.profile-engie .lectern-slide-logo {
+  align-self: start;
+}
+.reveal.profile-engie .lectern-slide-logo img {
+  display: block;
+  width: auto;
+  max-width: 104px;
+  height: auto;
+  max-height: 56px;
+  object-fit: contain;
 }
 
 /* ---- Cover: navy full-bleed, large white title, white logo ---- */
@@ -146,6 +180,16 @@
   flex-direction: column;
   justify-content: center;
   color: var(--lectern-on-brand);
+}
+.reveal.profile-engie .lectern-title-slide.has-footer {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  justify-content: initial;
+  overflow: hidden;
+}
+.reveal.profile-engie .lectern-title-content {
+  display: flex;
+  flex-direction: column;
 }
 .reveal.profile-engie .lectern-brand-logo {
   position: absolute;
@@ -213,6 +257,36 @@
   margin: 0;
   font-size: 15px;
   color: rgba(255, 255, 255, 0.85);
+}
+.reveal.profile-engie .lectern-title-footer {
+  align-self: stretch;
+  height: 100%;
+  min-height: 0;
+  margin: 1.25rem calc(-1 * var(--lectern-margin-x)) -48px;
+  padding: 0.5em var(--lectern-margin-x) 48px;
+  box-sizing: border-box;
+  background: var(--lectern-bg);
+  color: var(--lectern-ink);
+}
+.reveal.profile-engie .lectern-title-slide.has-footer .lectern-confidentiality {
+  color: var(--lectern-ink-soft);
+}
+.reveal.profile-engie .lectern-title-affiliation {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5em;
+  color: var(--lectern-ink);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.reveal.profile-engie .lectern-title-affiliation img {
+  display: block;
+  width: auto;
+  height: 52px;
+  object-fit: contain;
 }
 
 /* ---- Section divider: navy + white logo ---- */
@@ -379,7 +453,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   width: min(100%, 780px);
-  height: 260px;
+  height: 100%;
   margin: 1em auto;
 }
 .reveal.profile-engie .lectern-swot-cell {
@@ -454,55 +528,62 @@
 /* ---- Code ---- */
 .reveal.profile-engie pre.lectern-code {
   width: 100%;
+  max-height: 62vh;
+  overflow: auto;
   box-shadow: 0 2px 6px rgba(23, 37, 95, 0.14);
   border-radius: 6px;
   font-size: 15px;
   margin: 0.4em 0;
 }
 .reveal.profile-engie pre.lectern-code code {
+  display: block;
   border-radius: 6px;
   padding: 0.9em 1.1em;
   font-family: var(--lectern-font-code);
-  max-height: 62vh;
+}
+.reveal.profile-engie pre.lectern-code.flowlint-log {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* ---- Mermaid ---- */
-.reveal.profile-engie .lectern-mermaid-wrap {
-  width: 100%;
-  margin: 0.4em 0;
-  text-align: center;
-}
-.reveal.profile-engie .lectern-mermaid-wrap .mermaid {
+.reveal.profile-engie .mermaid {
   background: none;
   box-shadow: none;
   padding: 0;
   margin: 0;
   border: 0;
   width: 100%;
+  max-height: inherit;
 }
-.reveal.profile-engie .lectern-mermaid-wrap .mermaid svg {
-  width: 100% !important;
-  max-width: 1080px !important;
-  height: auto;
+.reveal.profile-engie .mermaid svg {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
   overflow: visible;
-  display: inline-block;
-  margin: 0 auto;
-}
-/* Keep mermaid labels on the profile font so measured/rendered widths agree. */
-.reveal.profile-engie .lectern-mermaid-wrap .mermaid text,
-.reveal.profile-engie .lectern-mermaid-wrap .mermaid foreignObject *,
-.reveal.profile-engie .lectern-mermaid-wrap .mermaid .nodeLabel,
-.reveal.profile-engie .lectern-mermaid-wrap .mermaid .edgeLabel,
-.reveal.profile-engie .lectern-mermaid-wrap .mermaid span {
-  font-family: var(--lectern-font) !important;
-  letter-spacing: normal !important;
-  white-space: nowrap !important;
-}
-.reveal.profile-engie .lectern-mermaid-wrap .mermaid foreignObject {
-  overflow: visible !important;
 }
 
+.reveal.profile-engie .lectern-columns.is-fill,
+.reveal.profile-engie .lectern-stack.is-fill {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+}
 /* ---- Quote ---- */
+.reveal.profile-engie .lectern-figure {
+  margin: 0;
+}
+.reveal.profile-engie .lectern-figure figcaption {
+  margin-top: 0.45em;
+  color: var(--lectern-ink-soft);
+  font-size: 15px;
+  font-style: italic;
+}
 .reveal.profile-engie .lectern-quote {
   border: 0;
   box-shadow: none;

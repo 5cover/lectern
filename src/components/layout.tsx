@@ -45,20 +45,32 @@ export interface ColumnsProps extends StyleEscapeHatch {
     align?: Align
     /** Relative widths of the columns. */
     ratio?: number[]
+    /** Explicit CSS Grid tracks, for content-sized rather than proportional columns. */
+    tracks?: string[]
+    /** Occupy the remaining height of a flex slide body. */
+    fill?: boolean
 }
 
-export function Columns({ children, gap, align = 'stretch', ratio, class: cls, style }: ColumnsProps) {
+export function Columns({ children, gap, align = 'stretch', ratio, tracks, fill = false, class: cls, style }: ColumnsProps) {
     const cols = toArray(children)
+    const usesGrid = tracks != null
     const base = {
-        display: 'flex',
-        'flex-direction': 'row',
+        display: usesGrid ? 'grid' : 'flex',
+        ...(usesGrid ? { 'grid-template-columns': tracks.join(' ') } : { 'flex-direction': 'row' }),
         gap: gap ?? 'var(--lectern-gap, 1.5rem)',
         'align-items': alignMap[align],
+        ...(fill ? { flex: '1 1 0', 'min-height': 0 } : {}),
     }
     return (
-        <div class={cx('lectern-columns', cls)} style={mergeStyle(base, style)}>
+        <div class={cx('lectern-columns', fill && 'is-fill', cls)} style={mergeStyle(base, style)}>
             {cols.map((child, i) => (
-                <div class="lectern-col" style={{ flex: ratio?.[i] ?? 1, 'min-width': 0 }}>
+                <div
+                    class="lectern-col"
+                    style={{
+                        ...(!usesGrid ? { flex: ratio?.[i] ?? 1 } : {}),
+                        'min-width': 0,
+                        ...(fill ? { display: 'flex', 'min-height': 0 } : {}),
+                    }}>
                     {child}
                 </div>
             ))}
@@ -72,18 +84,24 @@ export interface StackProps extends StyleEscapeHatch {
     gap?: string
     align?: Align
     justify?: Justify
+    /** Occupy the remaining height of a flex container. */
+    fill?: boolean
 }
 
-export function Stack({ children, gap, align, justify, class: cls, style }: StackProps) {
+export function Stack({ children, gap, align, justify, fill = false, class: cls, style }: StackProps) {
     const base: Record<string, string> = {
         display: 'flex',
         'flex-direction': 'column',
         gap: gap ?? 'var(--lectern-gap, 1rem)',
     }
+    if (fill) {
+        base.flex = '1 1 0'
+        base['min-height'] = '0'
+    }
     if (align) base['align-items'] = alignMap[align]
     if (justify) base['justify-content'] = justifyMap[justify]
     return (
-        <div class={cx('lectern-stack', cls)} style={mergeStyle(base, style)}>
+        <div class={cx('lectern-stack', fill && 'is-fill', cls)} style={mergeStyle(base, style)}>
             {children}
         </div>
     )

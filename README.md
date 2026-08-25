@@ -111,7 +111,7 @@ Components split by **who owns the layout decision**. Neutral, structure-only pr
 | Component                                                  | Purpose                                          |
 | ---------------------------------------------------------- | ------------------------------------------------ |
 | `<Deck>`                                                   | Root; holds metadata + slides                    |
-| `<Columns ratio>` / `<Stack>` / `<Grid cols>` / `<Spacer>` | Layout primitives                                |
+| `<Columns ratio tracks fill>` / `<Stack fill>` / `<Grid cols>` / `<Spacer>` | Layout primitives               |
 | `<Code lang lineNumbers>` / `<Mermaid>`                    | Highlighted code · Mermaid diagram               |
 | `<Notes>` / `<Fragment>` / `<Raw html>`                    | Speaker notes · fragment · raw-HTML escape hatch |
 

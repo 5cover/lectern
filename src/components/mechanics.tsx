@@ -40,9 +40,9 @@ export function Code({ children, lang, lineNumbers, class: cls, style }: CodePro
  */
 export function Mermaid({ children, class: cls, style }: { children: string } & StyleEscapeHatch) {
     return (
-        <div class={cx('lectern-mermaid-wrap', cls)} style={style}>
-            <pre class="mermaid">{children}</pre>
-        </div>
+        <pre class={'mermaid ' + (cls ?? '')} style={style}>
+            {children}
+        </pre>
     )
 }
 
