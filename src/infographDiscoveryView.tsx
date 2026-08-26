@@ -1,5 +1,12 @@
 import type { ComponentChildren } from 'preact'
-import type { DiscoveryClaim, DiscoveryEdge, DiscoveryNode, DiscoveryPayload, DiscoveryReason, DiscoverySelection } from './infographDiscovery'
+import type {
+    DiscoveryClaim,
+    DiscoveryEdge,
+    DiscoveryNode,
+    DiscoveryPayload,
+    DiscoveryReason,
+    DiscoverySelection,
+} from './infographDiscovery'
 import { searchLabel } from './infographDiscovery'
 
 export interface InfographDiscoveryDetailsProps {
@@ -9,12 +16,7 @@ export interface InfographDiscoveryDetailsProps {
     onSearch?: (value: string) => void
 }
 
-export function InfographDiscoveryDetails({
-    payload,
-    selection,
-    searchId,
-    onSearch,
-}: InfographDiscoveryDetailsProps) {
+export function InfographDiscoveryDetails({ payload, selection, searchId, onSearch }: InfographDiscoveryDetailsProps) {
     const nodes = new Map(payload.nodes.map(node => [node.key, node]))
     const edges = new Map(payload.edges.map(edge => [edge.key, edge]))
     const selected = selection.type === 'node' ? nodes.get(selection.key) : edges.get(selection.key)
@@ -30,7 +32,15 @@ export function InfographDiscoveryDetails({
     )
 }
 
-function Search({ payload, id, onSearch }: { payload: DiscoveryPayload; id: string; onSearch?: (value: string) => void }) {
+function Search({
+    payload,
+    id,
+    onSearch,
+}: {
+    payload: DiscoveryPayload
+    id: string
+    onSearch?: (value: string) => void
+}) {
     const listId = `${id}-options`
     return (
         <div class="lectern-infograph-search-slot">
@@ -49,7 +59,9 @@ function Search({ payload, id, onSearch }: { payload: DiscoveryPayload; id: stri
                 {payload.nodes
                     .slice()
                     .sort((left, right) => left.title.localeCompare(right.title) || left.key.localeCompare(right.key))
-                    .map(node => <option value={searchLabel(node)} />)}
+                    .map(node => (
+                        <option value={searchLabel(node)} />
+                    ))}
             </datalist>
         </div>
     )
@@ -59,10 +71,16 @@ function NodeDetails({ node }: { node?: DiscoveryNode }) {
     if (!node) return <p class="lectern-infograph-empty">Nœud introuvable.</p>
     return (
         <div class="lectern-infograph-detail">
-            <span class="lectern-infograph-kind">{node.kind}</span>
-            <p>{node.title}</p>
-            <p class="lectern-infograph-key">{node.key}</p>
-            {node.summary ? <p class="lectern-infograph-summary">{node.summary}</p> : null}
+            <div style="gap:1em;display:flex;justify-content:space-between;align-items:center">
+                <span class="lectern-infograph-kind">{node.kind}</span>
+                <span style="text-align:center;">{node.title}</span>
+                <span class="lectern-infograph-key" style="text-align:right">
+                    {node.key}
+                </span>
+            </div>
+            {node.summary ?
+                <p class="lectern-infograph-summary">{node.summary}</p>
+            :   null}
             <Metadata value={node} />
             <Claims claims={node.claim} />
             <Sources sources={node.source} />
@@ -74,9 +92,12 @@ function EdgeDetails({ edge, nodes }: { edge?: DiscoveryEdge; nodes: Map<string,
     if (!edge) return <p class="lectern-infograph-empty">Relation introuvable.</p>
     return (
         <div class="lectern-infograph-detail">
-            <span class="lectern-infograph-kind">relation</span>
-            <p>{`${nodes.get(edge.from)?.title ?? edge.from} ${edge.verb} ${nodes.get(edge.to)?.title ?? edge.to}`}</p>
-            <p class="lectern-infograph-key">{edge.key}</p>
+            <div style="gap:1em;display:flex;justify-content:space-between;align-items:center">
+                <span>{nodes.get(edge.from)?.title} <span style="font-weight:bold">{edge.verb}</span> {nodes.get(edge.to)?.title}</span>
+                <span class="lectern-infograph-key" style="text-align:right">
+                    {edge.key}
+                </span>
+            </div>
             <Metadata value={edge} />
             <Claims claims={edge.claim} />
         </div>
@@ -92,14 +113,23 @@ type MetadataValue = {
 }
 
 function Metadata({ value }: { value: MetadataValue }) {
-    const period = value.date && (value.date.from === value.date.to ? value.date.from : `${value.date.from} → ${value.date.to}`)
+    const period =
+        value.date && (value.date.from === value.date.to ? value.date.from : <>{value.date.from} &ndash; {value.date.to}</>)
     return (
         <dl class="lectern-infograph-metadata">
-            {period ? <MetadataRow label="Période">{period}</MetadataRow> : null}
-            {value.tag?.length ? <MetadataRow label="Tags">{value.tag.join(', ')}</MetadataRow> : null}
-            {value.importance ? <Reason label="Importance" value={value.importance} /> : null}
+            {period ?
+                <MetadataRow label="Période">{period}</MetadataRow>
+            :   null}
             <Reason label="Complexité" value={value.complexity} />
-            {value.technicality ? <Reason label="Technicité" value={value.technicality} /> : null}
+            {value.importance ?
+                <Reason label="Importance" value={value.importance} />
+            :   null}
+            {value.technicality ?
+                <Reason label="Technicité" value={value.technicality} />
+            :   null}
+            {value.tag?.length ?
+                <MetadataRow label="Tags">{value.tag.join(' ')}</MetadataRow>
+            :   null}
         </dl>
     )
 }
@@ -117,11 +147,7 @@ function Reason({ label, value }: { label: string; value: DiscoveryReason }) {
     return (
         <MetadataRow label={label}>
             <strong>{value.is}</strong>
-            {value.why.length > 1 ? (
-                <ul class="lectern-infograph-reason">
-                    {value.why.map(why => <li>{why}</li>)}
-                </ul>
-            ) : value.why[0] ? <p>{value.why[0]}</p> : null}
+            <FlexList onePrefix=" : " of={value.why}></FlexList>
         </MetadataRow>
     )
 }
@@ -131,12 +157,13 @@ function Claims({ claims }: { claims?: DiscoveryClaim[] }) {
     return (
         <div class="lectern-infograph-section" aria-label="Claims">
             <h4>Claims</h4>
-            {claims.map(claim => (
-                <article>
-                    <span>{claim.type}</span>
-                    <p>{claim.content}</p>
-                </article>
-            ))}
+            <FlexList
+                of={claims.map(claim => (
+                    <>
+                        <strong>{claim.type}</strong> : {claim.content}
+                    </>
+                ))}
+            />
         </div>
     )
 }
@@ -146,14 +173,31 @@ function Sources({ sources }: { sources?: DiscoveryReason[] }) {
     return (
         <div class="lectern-infograph-section" aria-label="Sources">
             <h4>Sources</h4>
-            {sources.map(source => (
-                <article>
-                    <span>{source.is}</span>
-                    <ul>
-                        {source.why.map(why => <li>{why}</li>)}
-                    </ul>
-                </article>
-            ))}
+            <FlexList
+                of={sources.map(source => (
+                    <>
+                        <strong>{source.is}</strong>
+                        <FlexList onePrefix=" : " of={source.why} />
+                    </>
+                ))}
+            />
         </div>
+    )
+}
+
+function FlexList({ of, onePrefix = null }: { of: ComponentChildren[]; onePrefix?: ComponentChildren }) {
+    return (
+        of.length > 1 ?
+            <ul class="lectern-infograph-reason">
+                {of.map(it => (
+                    <li>{it}</li>
+                ))}
+            </ul>
+        : of[0] ?
+            <>
+                {onePrefix}
+                {of[0]}
+            </>
+        :   null
     )
 }

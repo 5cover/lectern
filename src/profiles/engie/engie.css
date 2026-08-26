@@ -816,18 +816,15 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   text-transform: uppercase;
 }
 .reveal.profile-engie .lectern-infograph-key {
-  margin: 0.2rem 0 0.6rem;
   color: var(--lectern-ink-soft);
   font-size: 11px;
 }
 .reveal.profile-engie .lectern-infograph-discovery {
-  font-size: 1rem;
+  font-size: .75rem;
 }
 .reveal.profile-engie .lectern-infograph-metadata {
   display: grid;
   gap: 0.35rem;
-  margin: 0.7rem 0;
-  font-size: 0.75rem;
 }
 .reveal.profile-engie .lectern-infograph-metadata > div {
   display: grid;
