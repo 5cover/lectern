@@ -135,7 +135,7 @@ function Reason({ label, value }: { label: string; value: DiscoveryReason }) {
 function Claims({ claims }: { claims?: DiscoveryClaim[] }) {
     if (!claims?.length) return null
     return (
-        <section class="lectern-infograph-section">
+        <div class="lectern-infograph-section" aria-label="Claims">
             <h4>Claims</h4>
             {claims.map(claim => (
                 <article>
@@ -143,14 +143,14 @@ function Claims({ claims }: { claims?: DiscoveryClaim[] }) {
                     <p>{claim.content}</p>
                 </article>
             ))}
-        </section>
+        </div>
     )
 }
 
 function Sources({ sources }: { sources?: DiscoveryReason[] }) {
     if (!sources?.length) return null
     return (
-        <section class="lectern-infograph-section">
+        <div class="lectern-infograph-section" aria-label="Sources">
             <h4>Sources</h4>
             {sources.map(source => (
                 <article>
@@ -160,7 +160,7 @@ function Sources({ sources }: { sources?: DiscoveryReason[] }) {
                     </ul>
                 </article>
             ))}
-        </section>
+        </div>
     )
 }
 
