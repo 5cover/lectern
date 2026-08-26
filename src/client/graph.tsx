@@ -131,18 +131,18 @@ export function initInfographDiscovery(deck: RevealLike): void {
                     },
                     { selector: 'node:selected', style: { 'border-width': 3, 'border-color': '#00b8de' } },
                     { selector: 'edge:selected', style: { width: 3, 'line-color': '#00b8de', 'target-arrow-color': '#00b8de' } },
-                ] as cytoscape.StylesheetStyle[],
+                ] satisfies cytoscape.StylesheetStyle[],
                 layout: {
                     name: 'cose',
-                    animate: false,
+                    animate: true,
+                    animationDuration: 1200,
                     idealEdgeLength: () => 85,
                     nodeRepulsion: () => 7000,
                     componentSpacing: 45,
-                    padding: 28,
+                    padding: 10,
                     nodeOverlap: 8,
                     nodeDimensionsIncludeLabels: true,
-                } as cytoscape.LayoutOptions,
-                wheelSensitivity: 0.2,
+                } satisfies cytoscape.LayoutOptions,
             })
             cy.on('tap', 'node', event => select({ type: 'node', key: event.target.id() }))
             cy.on('tap', 'edge', event => select({ type: 'edge', key: event.target.id() }))
