@@ -134,11 +134,13 @@ async function main() {
         })
     }
 
-    // Opt-in interactive infograph discovery. Dynamic import keeps its client
-    // behavior out of decks that do not embed the component.
-    if (!isPrint && document.querySelector('[data-lectern-infograph-discovery]')) {
+    // Opt-in infograph discovery. Dynamic import keeps Cytoscape out of decks
+    // that do not embed the component; in PDF mode it renders the seed graph
+    // without an interactive surface.
+    if (document.querySelector('[data-lectern-infograph-discovery]')) {
         const { initInfographDiscovery } = await import('./graph')
-        initInfographDiscovery(deck as unknown as Parameters<typeof initInfographDiscovery>[0])
+        const infographReady = initInfographDiscovery(deck as unknown as Parameters<typeof initInfographDiscovery>[0])
+        if (isPrint) await infographReady
     }
 
     // Expose for tooling (PDF export waits on this).

@@ -37,7 +37,9 @@ interface RevealLike {
     on: (event: string, callback: () => void) => void
 }
 
-export function initInfographDiscovery(deck: RevealLike): void {
+export function initInfographDiscovery(deck: RevealLike): Promise<void> {
+    const initialLayouts: Promise<void>[] = []
+    const isPrint = /print-pdf/.test(location.search)
     document.querySelectorAll<HTMLElement>('[data-lectern-infograph-discovery]').forEach(root => {
         const data = root.querySelector<HTMLScriptElement>('.lectern-infograph-data')
         const details = root.querySelector<HTMLElement>('.lectern-infograph-details-panel')
@@ -58,6 +60,12 @@ export function initInfographDiscovery(deck: RevealLike): void {
         const slide = root.closest('section')
         let selection: DiscoverySelection = { type: 'node', key: seed }
         let cy: cytoscape.Core | undefined
+        let initialLayoutFinished = false
+        let finishInitialLayout: () => void
+        const initialLayout = new Promise<void>(resolve => {
+            finishInitialLayout = resolve
+        })
+        initialLayouts.push(initialLayout)
 
         const updateDetails = () => {
             render(
@@ -137,20 +145,41 @@ export function initInfographDiscovery(deck: RevealLike): void {
                     { selector: 'node:selected', style: { 'border-width': 3, 'border-color': '#00b8de' } },
                     { selector: 'edge:selected', style: { width: 3, 'line-color': '#00b8de', 'target-arrow-color': '#00b8de' } },
                 ] satisfies cytoscape.StylesheetStyle[],
-                layout: {
-                    name: 'fcose',
-                    animate: false,
-                    idealEdgeLength: () => 50,
-                    nodeRepulsion: () => 7000,
-                    componentSpacing: 45,
-                    padding: 10,
-                    nodeOverlap: 8,
-                    nodeDimensionsIncludeLabels: true,
-                } satisfies cytoscape.LayoutOptions,
+                layout: { name: 'grid', animate: false },
             })
+            const layout = cy.layout({
+                name: 'fcose',
+                animate: false,
+                idealEdgeLength: () => 50,
+                nodeRepulsion: () => 7000,
+                componentSpacing: 45,
+                padding: 10,
+                nodeOverlap: 8,
+                nodeDimensionsIncludeLabels: true,
+            } satisfies cytoscape.LayoutOptions)
+            layout.one('layoutstop', () => {
+                cy?.fit(undefined, 24)
+                if (initialLayoutFinished) return
+                initialLayoutFinished = true
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => {
+                        if (isPrint && cy) {
+                            const snapshot = new Image()
+                            snapshot.src = cy.png({ full: true, scale: 2, bg: '#ffffff' })
+                            void snapshot.decode().finally(() => {
+                                graphContainer.replaceChildren()
+                                graphContainer.style.background = `center / contain no-repeat url("${snapshot.src}")`
+                                requestAnimationFrame(finishInitialLayout)
+                            })
+                        } else {
+                            finishInitialLayout()
+                        }
+                    })
+                )
+            })
+            layout.run()
             cy.on('tap', 'node', event => select({ type: 'node', key: event.target.id() }))
             cy.on('tap', 'edge', event => select({ type: 'edge', key: event.target.id() }))
-            cy.fit(undefined, 24)
         }
 
         const select = (next: DiscoverySelection) => {
@@ -172,4 +201,5 @@ export function initInfographDiscovery(deck: RevealLike): void {
             }
         })
     })
+    return Promise.all(initialLayouts).then(() => undefined)
 }
