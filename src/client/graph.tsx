@@ -137,8 +137,9 @@ export function initInfographDiscovery(deck: RevealLike): void {
                 ] satisfies cytoscape.StylesheetStyle[],
                 layout: {
                     name: 'cose',
-                    animate: true,
-                    refresh: 4,
+                    animate: 'end',
+                    animationDuration: 1200,
+                    animationEasing: 'ease-out',
                     idealEdgeLength: () => 85,
                     nodeRepulsion: () => 7000,
                     componentSpacing: 45,
