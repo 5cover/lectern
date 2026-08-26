@@ -1,4 +1,6 @@
 import cytoscape from 'cytoscape'
+import fcose from 'cytoscape-fcose';
+cytoscape.use( fcose );
 import { render } from 'preact'
 import { InfographDiscoveryDetails } from '../infographDiscoveryView'
 import {
@@ -136,11 +138,9 @@ export function initInfographDiscovery(deck: RevealLike): void {
                     { selector: 'edge:selected', style: { width: 3, 'line-color': '#00b8de', 'target-arrow-color': '#00b8de' } },
                 ] satisfies cytoscape.StylesheetStyle[],
                 layout: {
-                    name: 'cose',
-                    animate: 'end',
-                    animationDuration: 1200,
-                    animationEasing: 'ease-out',
-                    idealEdgeLength: () => 85,
+                    name: 'fcose',
+                    animate: false,
+                    idealEdgeLength: () => 50,
                     nodeRepulsion: () => 7000,
                     componentSpacing: 45,
                     padding: 10,

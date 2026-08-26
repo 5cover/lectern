@@ -17,6 +17,9 @@ importers:
       cytoscape:
         specifier: ^3.34.1
         version: 3.34.1
+      cytoscape-fcose:
+        specifier: ^2.2.0
+        version: 2.2.0(cytoscape@3.34.1)
       infograph:
         specifier: ^1.0.0
         version: 1.0.0
@@ -39,6 +42,9 @@ importers:
         specifier: ^2.0.0
         version: 2.3.3(rollup@4.62.2)(vite@7.3.6(@types/node@22.20.0)(tsx@4.23.0)(yaml@2.9.0))
     devDependencies:
+      '@types/cytoscape-fcose':
+        specifier: ^2.2.5
+        version: 2.2.5
       '@types/node':
         specifier: ^22.0.0
         version: 22.20.0
@@ -735,6 +741,9 @@ packages:
   '@ts-graphviz/core@3.0.7':
     resolution: {integrity: sha512-Oyz9raPOihgC0CxOIJVE6iXy4AOd2X4N5DsxaRQeENhtgMBuyZMg+vSaR5q37vriWDgJeITkXeTJBrbSDddpQQ==}
     engines: {node: '>=20'}
+
+  '@types/cytoscape-fcose@2.2.5':
+    resolution: {integrity: sha512-FaM6MM5zC4Yh72E60vkpbM4tstJS90wj3u1Vq/SMiK/MShhLaMd17QkmR39S14aUWdfNSlUEfx/g/XkDdFmXDA==}
 
   '@types/d3-array@3.2.2':
     resolution: {integrity: sha512-hOLWVbm7uRza0BYXpIIW5pxfrKe0W+D5lrFiAEYR+pb6w3N2SwSMaJbXdUfSEv+dT4MfHBLtn5js0LAWaO6otw==}
@@ -2056,6 +2065,10 @@ snapshots:
     dependencies:
       '@ts-graphviz/ast': 3.0.6
       '@ts-graphviz/common': 3.0.5
+
+  '@types/cytoscape-fcose@2.2.5':
+    dependencies:
+      cytoscape: 3.34.1
 
   '@types/d3-array@3.2.2': {}
 
