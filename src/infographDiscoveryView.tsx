@@ -60,9 +60,10 @@ function NodeDetails({ node }: { node?: DiscoveryNode }) {
     return (
         <div class="lectern-infograph-detail">
             <span class="lectern-infograph-kind">{node.kind}</span>
+            <p>{node.title}</p>
             <p class="lectern-infograph-key">{node.key}</p>
             {node.summary ? <p class="lectern-infograph-summary">{node.summary}</p> : null}
-            <Metadata value={node} title={node.title} />
+            <Metadata value={node} />
             <Claims claims={node.claim} />
             <Sources sources={node.source} />
         </div>
@@ -74,12 +75,9 @@ function EdgeDetails({ edge, nodes }: { edge?: DiscoveryEdge; nodes: Map<string,
     return (
         <div class="lectern-infograph-detail">
             <span class="lectern-infograph-kind">relation</span>
+            <p>{`${nodes.get(edge.from)?.title ?? edge.from} ${edge.verb} ${nodes.get(edge.to)?.title ?? edge.to}`}</p>
             <p class="lectern-infograph-key">{edge.key}</p>
-            <Metadata
-                value={edge}
-                title={`${nodes.get(edge.from)?.title ?? edge.from} ${edge.verb} ${nodes.get(edge.to)?.title ?? edge.to}`}
-                titleLabel="Relation"
-            />
+            <Metadata value={edge} />
             <Claims claims={edge.claim} />
         </div>
     )
@@ -93,11 +91,10 @@ type MetadataValue = {
     technicality?: DiscoveryReason
 }
 
-function Metadata({ value, title, titleLabel = 'Titre' }: { value: MetadataValue; title?: string; titleLabel?: string }) {
+function Metadata({ value }: { value: MetadataValue }) {
     const period = value.date && (value.date.from === value.date.to ? value.date.from : `${value.date.from} → ${value.date.to}`)
     return (
         <dl class="lectern-infograph-metadata">
-            {title ? <MetadataRow label={titleLabel}>{title}</MetadataRow> : null}
             {period ? <MetadataRow label="Période">{period}</MetadataRow> : null}
             {value.tag?.length ? <MetadataRow label="Tags">{value.tag.join(', ')}</MetadataRow> : null}
             {value.importance ? <Reason label="Importance" value={value.importance} /> : null}
