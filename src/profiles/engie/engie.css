@@ -939,4 +939,8 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   .reveal.profile-engie .lectern-footer {
     position: absolute;
   }
+  .reveal.profile-engie .lectern-infograph-discovery,
+  .reveal.profile-engie .lectern-infograph-panel {
+    overflow: hidden;
+  }
 }
