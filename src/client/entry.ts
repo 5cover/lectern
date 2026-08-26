@@ -134,11 +134,11 @@ async function main() {
         })
     }
 
-    // Opt-in interactive infograph: only when a slide embeds one (`#infograph`).
-    // Dynamic import keeps the graph library out of decks that don't use it.
-    if (document.getElementById('infograph')) {
-        const { initGraph } = await import('./graph')
-        initGraph(deck as unknown as Parameters<typeof initGraph>[0])
+    // Opt-in interactive infograph discovery. Dynamic import keeps its client
+    // behavior out of decks that do not embed the component.
+    if (!isPrint && document.querySelector('[data-lectern-infograph-discovery]')) {
+        const { initInfographDiscovery } = await import('./graph')
+        initInfographDiscovery(deck as unknown as Parameters<typeof initInfographDiscovery>[0])
     }
 
     // Expose for tooling (PDF export waits on this).

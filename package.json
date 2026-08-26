@@ -48,7 +48,8 @@
   "dependencies": {
     "@engie-group/fluid-design-system": "^6.2.0",
     "@engie-group/fluid-design-tokens": "^6.2.0",
-    "cytoscape": "^3.34.0",
+    "cytoscape": "^3.34.1",
+    "infograph": "^1.0.0",
     "mermaid": "^11.16.0",
     "preact": "^10.24.0",
     "preact-render-to-string": "^6.5.0",

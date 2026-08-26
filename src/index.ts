@@ -7,6 +7,8 @@ export { Deck, isDeck } from './components/Deck'
 // Neutral layout primitives.
 export { Columns, Stack, Grid, Spacer } from './components/layout'
 export type { ColumnsProps, StackProps, GridProps } from './components/layout'
+export { InfographDiscovery } from './components/InfographDiscovery'
+export type { InfographDiscoveryProps } from './components/InfographDiscovery'
 
 // Neutral reveal-mechanics components.
 export { Code, Mermaid, Notes, Fragment, Raw } from './components/mechanics'

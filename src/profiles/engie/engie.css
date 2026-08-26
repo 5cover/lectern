@@ -150,6 +150,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 .reveal.profile-engie .lectern-slide-content {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  row-gap: 2em;
   align-items: stretch;
   height: 100%;
   min-height: 0;
@@ -756,6 +757,156 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   font-size: 14px;
   color: var(--lectern-ink-soft);
   margin-top: 0.1em;
+}
+
+/* ---- Infograph discovery ---- */
+.reveal.profile-engie .lectern-infograph-discovery {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+  gap: 1rem;
+  height: 100%;
+  min-height: 0;
+}
+.reveal.profile-engie .lectern-infograph-data {
+  display: none;
+}
+.reveal.profile-engie .lectern-infograph-panel {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid var(--lectern-line);
+  background: #fff;
+  padding: 0.8rem;
+}
+.reveal.profile-engie .lectern-infograph-neighborhood-panel {
+  overflow: hidden;
+  padding: 0;
+}
+.reveal.profile-engie .lectern-infograph-graph {
+  width: 100%;
+  height: 100%;
+}
+.reveal.profile-engie .lectern-infograph-search-slot {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 0.8rem;
+}
+.reveal.profile-engie .lectern-infograph-discovery-search-label,
+.reveal.profile-engie .lectern-infograph-section h4 {
+  color: var(--lectern-navy);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.reveal.profile-engie .lectern-infograph-discovery-search {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--lectern-line);
+  padding: 0.45rem 0.55rem;
+  color: var(--lectern-ink);
+  font: inherit;
+}
+.reveal.profile-engie .lectern-infograph-kind,
+.reveal.profile-engie .lectern-infograph-section article > span {
+  display: inline-block;
+  color: var(--lectern-brand-strong);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.reveal.profile-engie .lectern-infograph-detail h3 {
+  margin: 0.35rem 0 0;
+  color: var(--lectern-navy);
+  font-size: 21px;
+  line-height: 1.2;
+}
+.reveal.profile-engie .lectern-infograph-key {
+  margin: 0.2rem 0 0.6rem;
+  color: var(--lectern-ink-soft);
+  font-size: 11px;
+}
+.reveal.profile-engie .lectern-infograph-summary {
+  margin: 0 0 0.7rem;
+  font-size: 15px;
+  line-height: 1.35;
+}
+.reveal.profile-engie .lectern-infograph-metadata {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.7rem 0;
+  font-size: 12px;
+}
+.reveal.profile-engie .lectern-infograph-metadata > div {
+  display: grid;
+  grid-template-columns: 5.7rem minmax(0, 1fr);
+  gap: 0.4rem;
+}
+.reveal.profile-engie .lectern-infograph-metadata dt {
+  color: var(--lectern-ink-soft);
+  font-weight: 700;
+}
+.reveal.profile-engie .lectern-infograph-metadata dd {
+  margin: 0;
+}
+.reveal.profile-engie .lectern-infograph-reason {
+  margin: 0.2rem 0 0;
+  padding-left: 1rem;
+  color: var(--lectern-ink-soft);
+}
+.reveal.profile-engie .lectern-infograph-section {
+  margin-top: 0.8rem;
+}
+.reveal.profile-engie .lectern-infograph-section h4 {
+  margin: 0 0 0.35rem;
+}
+.reveal.profile-engie .lectern-infograph-section article {
+  border-left: 2px solid var(--lectern-brand);
+  margin-top: 0.45rem;
+  padding-left: 0.5rem;
+}
+.reveal.profile-engie .lectern-infograph-section article p {
+  margin: 0.15rem 0 0;
+  font-size: 12px;
+  line-height: 1.35;
+}
+.reveal.profile-engie .lectern-infograph-section article ul {
+  margin: 0.15rem 0 0;
+  padding-left: 1rem;
+  font-size: 12px;
+  line-height: 1.35;
+}
+.reveal.profile-engie .lectern-infograph-node {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.reveal.profile-engie .lectern-infograph-node {
+  min-width: 0;
+  background: var(--lectern-bg-soft);
+  color: var(--lectern-navy);
+  padding: 0.35rem 0.45rem;
+  text-align: left;
+}
+.reveal.profile-engie .lectern-infograph-node span,
+.reveal.profile-engie .lectern-infograph-node small {
+  display: block;
+}
+.reveal.profile-engie .lectern-infograph-node span {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.reveal.profile-engie .lectern-infograph-node small {
+  color: var(--lectern-ink-soft);
+  font-size: 10px;
+}
+.reveal.profile-engie .lectern-infograph-empty {
+  color: var(--lectern-ink-soft);
+  font-size: 14px;
 }
 
 /* ---- Lead ---- */
