@@ -62,7 +62,7 @@ function NodeDetails({ node }: { node?: DiscoveryNode }) {
     return (
         <div class="lectern-infograph-detail">
             <span class="lectern-infograph-kind">{node.kind}</span>
-            <h3>{node.title}</h3>
+            <div class="lectern-infograph-title">{node.title}</div>
             <p class="lectern-infograph-key">{node.key}</p>
             {node.summary ? <p class="lectern-infograph-summary">{node.summary}</p> : null}
             <Metadata value={node} />
@@ -77,11 +77,11 @@ function EdgeDetails({ edge, nodes, onSelectNode }: { edge?: DiscoveryEdge; node
     return (
         <div class="lectern-infograph-detail">
             <span class="lectern-infograph-kind">relation</span>
-            <h3>
+            <div class="lectern-infograph-title">
                 <NodeButton node={nodes.get(edge.from)} onSelectNode={onSelectNode} />
                 <span class="lectern-infograph-verb">{edge.verb}</span>
                 <NodeButton node={nodes.get(edge.to)} onSelectNode={onSelectNode} />
-            </h3>
+            </div>
             <p class="lectern-infograph-key">{edge.key}</p>
             <Metadata value={edge} />
             <Claims claims={edge.claim} />

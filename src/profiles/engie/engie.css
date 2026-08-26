@@ -803,9 +803,11 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   width: 100%;
   box-sizing: border-box;
   border: 1px solid var(--lectern-line);
-  padding: 0.45rem 0.55rem;
+  padding: 0.35rem 0.45rem;
   color: var(--lectern-ink);
-  font: inherit;
+  font-family: var(--lectern-font-body);
+  font-size: 14px;
+  line-height: 1.25;
 }
 .reveal.profile-engie .lectern-infograph-kind,
 .reveal.profile-engie .lectern-infograph-section article > span {
@@ -816,7 +818,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.reveal.profile-engie .lectern-infograph-detail h3 {
+.reveal.profile-engie .lectern-infograph-title {
   margin: 0.35rem 0 0;
   color: var(--lectern-navy);
   font-size: 21px;
