@@ -131,7 +131,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   margin: 0 0 0.5em 0;
 }
 .reveal.profile-engie .lectern-kicker {
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 700;
@@ -251,7 +251,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 }
 .reveal.profile-engie .lectern-byline {
   margin-top: 2rem;
-  font-size: 15px;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.75);
 }
 .reveal.profile-engie .lectern-author {
@@ -263,7 +263,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   right: var(--lectern-margin-x);
   bottom: 40px;
   margin: 0;
-  font-size: 15px;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.85);
 }
 .reveal.profile-engie .lectern-title-footer {
@@ -353,7 +353,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 }
 .reveal.profile-engie .lectern-summary-hint {
   grid-column: 2;
-  font-size: 14px;
+  font-size: 0.75rem;
   color: var(--lectern-ink-soft);
 }
 
@@ -468,7 +468,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
-  padding: 12px;
+  padding: 0.75rem;
   border: 1px solid var(--lectern-line);
   text-align: center;
 }
@@ -500,7 +500,6 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 .reveal.profile-engie .lectern-swot-reasons {
   color: var(--lectern-ink-soft);
   font-size: 16px;
-  line-height: 1.35;
 }
 .reveal.profile-engie .lectern-swot-reasons > :first-child {
   margin-top: 0.35em;
@@ -539,7 +538,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   overflow: auto;
   box-shadow: 0 2px 6px rgba(23, 37, 95, 0.14);
   border-radius: 6px;
-  font-size: 15px;
+  font-size: 1rem;
   margin: 0.4em 0;
 }
 .reveal.profile-engie pre.lectern-code code {
@@ -574,7 +573,6 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   overflow: visible;
 }
 
-
 .reveal.profile-engie .lectern-columns.is-fill,
 .reveal.profile-engie .lectern-stack.is-fill {
   width: 100%;
@@ -603,7 +601,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 .reveal.profile-engie .lectern-figure figcaption {
   margin-top: 0.45em;
   color: var(--lectern-ink-soft);
-  font-size: 15px;
+  font-size: 1rem;
   font-style: italic;
 }
 .reveal.profile-engie .lectern-quote {
@@ -615,16 +613,15 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   margin: 0;
 }
 .reveal.profile-engie .lectern-quote-text {
-  font-size: 24px;
+  font-size: 2rem;
   font-style: italic;
   margin: 0;
   color: var(--lectern-navy);
-  line-height: 1.35;
 }
 .reveal.profile-engie .lectern-quote-cite {
   margin-top: 0.5em;
   color: var(--lectern-ink-soft);
-  font-size: 15px;
+  font-size: 1rem;
 }
 
 /* ---- KPI / Metric ---- */
@@ -644,12 +641,12 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   line-height: 1;
 }
 .reveal.profile-engie .lectern-metric-label {
-  font-size: 15px;
+  font-size: 1rem;
   color: var(--lectern-ink-soft);
   margin-top: 0.35em;
 }
 .reveal.profile-engie .lectern-metric-trend {
-  font-size: 14px;
+  font-size: 0.75rem;
   font-weight: 700;
   margin-top: 0.3em;
 }
@@ -687,7 +684,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 }
 .reveal.profile-engie .lectern-collaborator-name {
   color: var(--lectern-navy);
-  font-size: 14px;
+  font-size: 0.75rem;
   line-height: 1.15;
 }
 .reveal.profile-engie .lectern-collaborator-role {
@@ -754,7 +751,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 }
 .reveal.profile-engie .lectern-timeline-desc {
   display: block;
-  font-size: 14px;
+  font-size: 0.75rem;
   color: var(--lectern-ink-soft);
   margin-top: 0.1em;
 }
@@ -806,7 +803,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   padding: 0.35rem 0.45rem;
   color: var(--lectern-ink);
   font-family: var(--lectern-font-body);
-  font-size: 14px;
+  font-size: 0.75rem;
   line-height: 1.25;
 }
 .reveal.profile-engie .lectern-infograph-kind,
@@ -823,16 +820,14 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   color: var(--lectern-ink-soft);
   font-size: 11px;
 }
-.reveal.profile-engie .lectern-infograph-summary {
-  margin: 0 0 0.7rem;
-  font-size: 15px;
-  line-height: 1.35;
+.reveal.profile-engie .lectern-infograph-discovery {
+  font-size: 1rem;
 }
 .reveal.profile-engie .lectern-infograph-metadata {
   display: grid;
   gap: 0.35rem;
   margin: 0.7rem 0;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .reveal.profile-engie .lectern-infograph-metadata > div {
   display: grid;
@@ -864,23 +859,21 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 }
 .reveal.profile-engie .lectern-infograph-section article p {
   margin: 0.15rem 0 0;
-  font-size: 12px;
-  line-height: 1.35;
+  font-size: 0.75rem;
 }
 .reveal.profile-engie .lectern-infograph-section article ul {
   margin: 0.15rem 0 0;
   padding-left: 1rem;
-  font-size: 12px;
-  line-height: 1.35;
+  font-size: 0.75rem;
 }
 .reveal.profile-engie .lectern-infograph-empty {
   color: var(--lectern-ink-soft);
-  font-size: 14px;
+  font-size: 0.75rem;
 }
 
 /* ---- Lead ---- */
 .reveal.profile-engie .lectern-lead {
-  font-size: 24px;
+  font-size: 2rem;
   color: var(--lectern-navy);
   line-height: 1.4;
 }
@@ -888,7 +881,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 /* ---- Footer: 8pt navy, bottom-right (© ENGIE {year} - {title} - {date}) ---- */
 .reveal.profile-engie .lectern-footer {
   position: fixed;
-  bottom: 14px;
+  bottom: 0.75rem;
   right: 84px;
   max-width: 70%;
   display: flex;
