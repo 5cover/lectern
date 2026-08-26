@@ -75,6 +75,7 @@
   color: var(--lectern-ink);
   font-weight: 400;
   line-height: 1.5;
+  position: relative;
 }
 
 .reveal.profile-engie .slides {
@@ -150,6 +151,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 .reveal.profile-engie .lectern-slide-content {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  row-gap: 2em;
   align-items: stretch;
   height: 100%;
   min-height: 0;
@@ -239,11 +241,10 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
    left-anchored gradient rect. Size lives on the SVG; here we only position it
    and stop flex parents from resizing it. */
 .reveal.profile-engie .lectern-ray {
-  display: block;
-  flex: 0 0 auto;
-  align-self: flex-start;
-  /* pull left past the slide padding so it touches the screen edge (x=0) */
-  margin: 1.4rem 0 0 calc(-1 * var(--lectern-margin-x));
+  width: 75vw;
+  height: 26px;
+  position: relative;
+  left: calc(-1 * var(--lectern-margin-x));
 }
 .reveal.profile-engie .lectern-title-slide .lectern-ray {
   margin-top: 1.7rem;
@@ -819,7 +820,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   font-size: 11px;
 }
 .reveal.profile-engie .lectern-infograph-discovery {
-  font-size: .75rem;
+  font-size: 0.75rem;
 }
 .reveal.profile-engie .lectern-infograph-metadata {
   display: grid;

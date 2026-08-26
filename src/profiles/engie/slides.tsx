@@ -46,8 +46,10 @@ function BrandLogo({ height }: { height: number }) {
     return <img class="lectern-brand-logo" src={engieLogoWhite} height={height} alt="ENGIE" />
 }
 
-function Ray({ width, height }: { width: number; height: number }) {
+function Ray() {
     const gradientId = `present_gradient_ray_${rayId++}`
+    const width = 720,
+        height = 26;
     return (
         <svg
             class="lectern-ray"
@@ -150,7 +152,7 @@ export function TitleSlide({
                     <p class="lectern-eyebrow">{eyebrow}</p>
                 :   null}
                 <h1 class="lectern-title">{title}</h1>
-                <Ray width={720} height={26} />
+                <Ray />
                 {subtitle ?
                     <p class="lectern-subtitle">{subtitle}</p>
                 :   null}
@@ -198,7 +200,7 @@ export function SectionSlide({ title, subtitle, number, class: cls, logoHeight, 
                 <p class="lectern-section-number">{number}</p>
             :   null}
             <h2 class="lectern-section-title">{title}</h2>
-            <Ray width={380} height={34} />
+            <Ray />
             {subtitle ?
                 <p class="lectern-section-subtitle">{subtitle}</p>
             :   null}
