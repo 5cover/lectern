@@ -222,18 +222,26 @@ export interface SummaryProps extends SlideBaseProps {
 export function Summary({ items, heading = 'Sommaire', class: cls, ...rest }: SummaryProps) {
     return (
         <section class={cx('lectern-slide lectern-summary-slide', cls)} {...sectionAttrs(rest)}>
-            <h2 class="lectern-heading">{heading}</h2>
-            <ol class="lectern-summary">
-                {items.map((it, i) => (
-                    <li class="lectern-summary-item">
-                        <span class="lectern-summary-num">{String(i + 1).padStart(2, '0')}</span>
-                        <span class="lectern-summary-title">{it.title}</span>
-                        {it.hint ?
-                            <span class="lectern-summary-hint">{it.hint}</span>
-                        :   null}
-                    </li>
-                ))}
-            </ol>
+            <div class="lectern-slide-content">
+                <header class="lectern-slide-header">
+                    <div class="lectern-slide-header-copy">
+                        <h2 class="lectern-heading">{heading}</h2>
+                    </div>
+                </header>
+                <main class="lectern-slide-main">
+                    <ol class="lectern-summary">
+                        {items.map((it, i) => (
+                            <li class="lectern-summary-item">
+                                <span class="lectern-summary-num">{String(i + 1).padStart(2, '0')}</span>
+                                <span class="lectern-summary-title">{it.title}</span>
+                                {it.hint ?
+                                    <span class="lectern-summary-hint">{it.hint}</span>
+                                :   null}
+                            </li>
+                        ))}
+                    </ol>
+                </main>
+            </div>
         </section>
     )
 }
