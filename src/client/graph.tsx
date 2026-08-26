@@ -63,7 +63,6 @@ export function initInfographDiscovery(deck: RevealLike): void {
                     payload={payload}
                     selection={selection}
                     searchId={searchId}
-                    onSelectNode={key => select({ type: 'node', key })}
                     onSearch={value => {
                         const key =
                             nodesBySearchLabel.get(value) ??
@@ -81,10 +80,13 @@ export function initInfographDiscovery(deck: RevealLike): void {
             const relations = selectDiscoveryRelations(payload, selection).slice(0, budget)
             const nodeKeys = new Set(relations.flatMap(relation => [relation.edge.from, relation.edge.to]))
             if (selection.type === 'node') nodeKeys.add(selection.key)
+            const selectedEdge = selection.type === 'edge' ? payload.edges.find(edge => edge.key === selection.key) : undefined
+            const activeNodeKeys = new Set(selection.type === 'node' ? [selection.key] : selectedEdge ? [selectedEdge.from, selectedEdge.to] : [])
             const nodes = payload.nodes.filter(node => nodeKeys.has(node.key))
             const elements: cytoscape.ElementDefinition[] = [
                 ...nodes.map(node => ({
                     data: { id: node.key, label: node.title, kind: node.kind },
+                    classes: activeNodeKeys.has(node.key) ? 'is-active' : '',
                 })),
                 ...relations.map(({ edge }) => ({
                     data: { id: edge.key, source: edge.from, target: edge.to, label: edge.verb },
@@ -111,6 +113,7 @@ export function initInfographDiscovery(deck: RevealLike): void {
                             height: 18,
                         },
                     },
+                    { selector: 'node.is-active', style: { 'font-weight': 700 } },
                     {
                         selector: 'edge',
                         style: {

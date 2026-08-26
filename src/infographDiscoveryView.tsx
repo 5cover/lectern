@@ -6,7 +6,6 @@ export interface InfographDiscoveryDetailsProps {
     payload: DiscoveryPayload
     selection: DiscoverySelection
     searchId: string
-    onSelectNode?: (key: string) => void
     onSearch?: (value: string) => void
 }
 
@@ -14,7 +13,6 @@ export function InfographDiscoveryDetails({
     payload,
     selection,
     searchId,
-    onSelectNode,
     onSearch,
 }: InfographDiscoveryDetailsProps) {
     const nodes = new Map(payload.nodes.map(node => [node.key, node]))
@@ -26,7 +24,7 @@ export function InfographDiscoveryDetails({
             <div class="lectern-infograph-details">
                 {selection.type === 'node' ?
                     <NodeDetails node={selected as DiscoveryNode | undefined} />
-                :   <EdgeDetails edge={selected as DiscoveryEdge | undefined} nodes={nodes} onSelectNode={onSelectNode} />}
+                :   <EdgeDetails edge={selected as DiscoveryEdge | undefined} nodes={nodes} />}
             </div>
         </>
     )
@@ -62,28 +60,26 @@ function NodeDetails({ node }: { node?: DiscoveryNode }) {
     return (
         <div class="lectern-infograph-detail">
             <span class="lectern-infograph-kind">{node.kind}</span>
-            <div class="lectern-infograph-title">{node.title}</div>
             <p class="lectern-infograph-key">{node.key}</p>
             {node.summary ? <p class="lectern-infograph-summary">{node.summary}</p> : null}
-            <Metadata value={node} />
+            <Metadata value={node} title={node.title} />
             <Claims claims={node.claim} />
             <Sources sources={node.source} />
         </div>
     )
 }
 
-function EdgeDetails({ edge, nodes, onSelectNode }: { edge?: DiscoveryEdge; nodes: Map<string, DiscoveryNode>; onSelectNode?: (key: string) => void }) {
+function EdgeDetails({ edge, nodes }: { edge?: DiscoveryEdge; nodes: Map<string, DiscoveryNode> }) {
     if (!edge) return <p class="lectern-infograph-empty">Relation introuvable.</p>
     return (
         <div class="lectern-infograph-detail">
             <span class="lectern-infograph-kind">relation</span>
-            <div class="lectern-infograph-title">
-                <NodeButton node={nodes.get(edge.from)} onSelectNode={onSelectNode} />
-                <span class="lectern-infograph-verb">{edge.verb}</span>
-                <NodeButton node={nodes.get(edge.to)} onSelectNode={onSelectNode} />
-            </div>
             <p class="lectern-infograph-key">{edge.key}</p>
-            <Metadata value={edge} />
+            <Metadata
+                value={edge}
+                title={`${nodes.get(edge.from)?.title ?? edge.from} ${edge.verb} ${nodes.get(edge.to)?.title ?? edge.to}`}
+                titleLabel="Relation"
+            />
             <Claims claims={edge.claim} />
         </div>
     )
@@ -97,10 +93,11 @@ type MetadataValue = {
     technicality?: DiscoveryReason
 }
 
-function Metadata({ value }: { value: MetadataValue }) {
+function Metadata({ value, title, titleLabel = 'Titre' }: { value: MetadataValue; title?: string; titleLabel?: string }) {
     const period = value.date && (value.date.from === value.date.to ? value.date.from : `${value.date.from} → ${value.date.to}`)
     return (
         <dl class="lectern-infograph-metadata">
+            {title ? <MetadataRow label={titleLabel}>{title}</MetadataRow> : null}
             {period ? <MetadataRow label="Période">{period}</MetadataRow> : null}
             {value.tag?.length ? <MetadataRow label="Tags">{value.tag.join(', ')}</MetadataRow> : null}
             {value.importance ? <Reason label="Importance" value={value.importance} /> : null}
@@ -123,11 +120,11 @@ function Reason({ label, value }: { label: string; value: DiscoveryReason }) {
     return (
         <MetadataRow label={label}>
             <strong>{value.is}</strong>
-            {value.why.length ? (
+            {value.why.length > 1 ? (
                 <ul class="lectern-infograph-reason">
                     {value.why.map(why => <li>{why}</li>)}
                 </ul>
-            ) : null}
+            ) : value.why[0] ? <p>{value.why[0]}</p> : null}
         </MetadataRow>
     )
 }
@@ -161,15 +158,5 @@ function Sources({ sources }: { sources?: DiscoveryReason[] }) {
                 </article>
             ))}
         </div>
-    )
-}
-
-function NodeButton({ node, onSelectNode }: { node?: DiscoveryNode; onSelectNode?: (key: string) => void }) {
-    if (!node) return <span class="lectern-infograph-node-missing">Nœud introuvable</span>
-    return (
-        <button type="button" class="lectern-infograph-node" onClick={() => onSelectNode?.(node.key)}>
-            <span>{node.title}</span>
-            <small>{node.kind}</small>
-        </button>
     )
 }

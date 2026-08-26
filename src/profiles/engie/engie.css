@@ -818,12 +818,6 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.reveal.profile-engie .lectern-infograph-title {
-  margin: 0.35rem 0 0;
-  color: var(--lectern-navy);
-  font-size: 21px;
-  line-height: 1.2;
-}
 .reveal.profile-engie .lectern-infograph-key {
   margin: 0.2rem 0 0.6rem;
   color: var(--lectern-ink-soft);
@@ -878,33 +872,6 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   padding-left: 1rem;
   font-size: 12px;
   line-height: 1.35;
-}
-.reveal.profile-engie .lectern-infograph-node {
-  border: 0;
-  font: inherit;
-  cursor: pointer;
-}
-.reveal.profile-engie .lectern-infograph-node {
-  min-width: 0;
-  background: var(--lectern-bg-soft);
-  color: var(--lectern-navy);
-  padding: 0.35rem 0.45rem;
-  text-align: left;
-}
-.reveal.profile-engie .lectern-infograph-node span,
-.reveal.profile-engie .lectern-infograph-node small {
-  display: block;
-}
-.reveal.profile-engie .lectern-infograph-node span {
-  overflow: hidden;
-  font-size: 12px;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.reveal.profile-engie .lectern-infograph-node small {
-  color: var(--lectern-ink-soft);
-  font-size: 10px;
 }
 .reveal.profile-engie .lectern-infograph-empty {
   color: var(--lectern-ink-soft);
