@@ -71,6 +71,7 @@ Then:
 ```bash
 lectern dev   deck.tsx            # live-reload dev server (default http://localhost:4321)
 lectern build deck.tsx -o dist    # self-contained dist/index.html (open offline, host anywhere)
+lectern serve deck.tsx            # fresh production build served locally (default http://127.0.0.1:4321)
 lectern pdf   deck.tsx -o deck.pdf # PDF export via headless Chromium
 ```
 
@@ -142,11 +143,13 @@ Components split by **who owns the layout decision**. Neutral, structure-only pr
 ```sh
 lectern dev   [deck.tsx] [--port 4321]
 lectern build [deck.tsx] [--out dist] [--no-single-file]
+lectern serve [deck.tsx] [--port 4321] [--host 127.0.0.1]
 lectern pdf   [deck.tsx] [--out deck.pdf]
 lectern rules [profile]              # print a profile's guidelines (default: engie)
 ```
 
 - `build` inlines all JS/CSS/assets into a single `index.html` by default. Use `--no-single-file` to emit a folder of hashed assets instead.
+- `serve` makes a fresh, single-file production build in a temporary directory and hosts it without file watching or Vite's development runtime. It listens on `127.0.0.1` by default; pass `--host 0.0.0.0` to make it reachable from other devices on your network.
 - `pdf` reuses the build output and drives reveal's `?print-pdf` mode. It waits for reveal and every Mermaid diagram to finish before printing.
 - `rules` prints the natural-language rulebook for a profile (see below).
 

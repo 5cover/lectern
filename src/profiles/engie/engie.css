@@ -150,7 +150,6 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 .reveal.profile-engie .lectern-slide-content {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  row-gap: 2em;
   align-items: stretch;
   height: 100%;
   min-height: 0;

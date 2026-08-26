@@ -8,6 +8,7 @@ const HELP = `lectern - reveal.js decks authored as TSX, styled with ENGIE Fluid
 Usage:
   lectern dev   [deck.tsx] [--port 4321]
   lectern build [deck.tsx] [--out dist] [--no-single-file]
+  lectern serve [deck.tsx] [--port 4321] [--host 127.0.0.1]
   lectern pdf   [deck.tsx] [--out deck.pdf]
   lectern rules [profile]              (default profile: engie)
 
@@ -16,7 +17,8 @@ Arguments:
   profile            Profile name to describe (default: engie)
 
 Options:
-  --port, -p         Dev server port (default 4321)
+  --port, -p         Dev or production server port (default 4321)
+  --host             Production server host (default 127.0.0.1)
   --out, -o          Output dir (build) or file (pdf)
   --no-single-file   Emit separate assets instead of one inlined index.html
   --help, -h         Show this help
@@ -45,6 +47,7 @@ async function main() {
         allowPositionals: true,
         options: {
             port: { type: 'string', short: 'p' },
+            host: { type: 'string' },
             out: { type: 'string', short: 'o' },
             'single-file': { type: 'boolean', default: true },
             help: { type: 'boolean', short: 'h' },
@@ -76,6 +79,18 @@ async function main() {
             const outDir = values.out ?? 'dist'
             const file = await build({ deckPath, outDir, singleFile: values['single-file'] })
             console.log(`✔ Built ${file}`)
+            break
+        }
+        case 'serve': {
+            const { serve } = await import('./serve')
+            const { url } = await serve({
+                deckPath,
+                port: values.port ? Number(values.port) : 4321,
+                host: values.host ?? '127.0.0.1',
+            })
+            console.log(
+                `\n  lectern production server running\n  ➜  ${url}\n  Built from ${deckPath}. Source changes require a restart. Ctrl+C to stop.\n`
+            )
             break
         }
         case 'pdf': {
