@@ -135,7 +135,7 @@ export function initInfographDiscovery(deck: RevealLike): void {
                 layout: {
                     name: 'cose',
                     animate: true,
-                    animationDuration: 1200,
+                    refresh: 4,
                     idealEdgeLength: () => 85,
                     nodeRepulsion: () => 7000,
                     componentSpacing: 45,
