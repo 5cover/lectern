@@ -215,8 +215,9 @@ describe('profiles', () => {
                 <Slide heading="H" />
             </Deck>
         )
-        // Profile default (viewport-width canvas), deck override (slideNumber:false) wins.
-        expect(meta.reveal?.width).toBe('100%')
+        // Profile default (1280×720 design canvas), deck override (slideNumber:false) wins.
+        expect(meta.reveal?.width).toBe(1280)
+        expect(meta.reveal?.height).toBe(720)
         expect(meta.reveal?.slideNumber).toBe(false)
     })
 

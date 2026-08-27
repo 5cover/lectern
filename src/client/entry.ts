@@ -82,6 +82,10 @@ async function main() {
     const deck = new Reveal({
         width: 1280,
         height: 720,
+        // Let the presentation fill any viewport. A deck may still explicitly
+        // cap either value through its `reveal` configuration.
+        minScale: 0,
+        maxScale: Infinity,
         hash: true,
         // In PDF export, keep one page per slide (show all fragments) instead of one page per fragment step: better for a handout.
         pdfSeparateFragments: false,

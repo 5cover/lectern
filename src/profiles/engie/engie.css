@@ -534,7 +534,7 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 /* ---- Code ---- */
 .reveal.profile-engie pre.lectern-code {
   width: 100%;
-  max-height: 62vh;
+  max-height: 100%;
   overflow: auto;
   box-shadow: 0 2px 6px rgba(23, 37, 95, 0.14);
   border-radius: 6px;
@@ -548,12 +548,14 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   font-family: var(--lectern-font-code);
 }
 .reveal.profile-engie pre.lectern-code.flowlint-log {
+  height: 100%;
+  min-height: 0;
+  margin: 0;
   white-space: pre-wrap;
   overflow-wrap: break-word;
   overflow-y: auto;
   overflow-x: hidden;
 }
-
 /* ---- Mermaid ---- */
 .reveal.profile-engie .mermaid {
   background: none;
