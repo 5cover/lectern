@@ -59,10 +59,9 @@ async function main() {
     const ink = cssVar('--lectern-ink', '#232d35')
     const line = cssVar('--lectern-line', '#d6dde2')
     const bgSoft = cssVar('--lectern-bg-soft', '#f6f8f9')
-    const fontSize = cssVar('--lectern-size-body', '20px')
     // The profile's *resolved* font stack (from Fluid) — we don't invent a font.
-    // Mermaid pins labels to these values in its generated stylesheet, so its
-    // measurements and the rendered labels remain in agreement with the profile.
+    // Mermaid pins labels to this value in its generated stylesheet, so measured
+    // and rendered widths agree.
     const font = getComputedStyle(revealEl ?? document.documentElement).fontFamily || 'sans-serif'
 
     mermaid.initialize({
@@ -73,7 +72,6 @@ async function main() {
         flowchart: { htmlLabels: false, useMaxWidth: false, padding: 10, nodeSpacing: 50, rankSpacing: 55 },
         themeVariables: {
             fontFamily: font,
-            fontSize,
             primaryColor: bgSoft,
             primaryBorderColor: brand,
             primaryTextColor: ink,
@@ -107,10 +105,24 @@ async function main() {
     async function renderMermaid(scope: ParentNode | null) {
         const nodes = Array.from((scope ?? document).querySelectorAll<HTMLElement>('.mermaid:not([data-processed])'))
         if (!nodes.length) return
+        // Mermaid measures SVG labels in screen coordinates. Reveal scales the
+        // `.slides` canvas with a CSS transform, which would make Mermaid bake
+        // that scale into node dimensions and then scale them a second time.
+        // Render in the unscaled 1280×720 coordinate system, then restore
+        // Reveal's transform for display.
+        const slides = document.querySelector<HTMLElement>('.reveal .slides')
+        const transform = slides?.style.transform
+        if (slides && transform?.includes('scale(')) {
+            slides.style.transform = transform.replace(/scale\([^)]*\)/, 'scale(1)')
+        }
         try {
             await mermaid.run({ nodes })
         } catch (err) {
             console.error('[lectern] mermaid render error', err)
+        } finally {
+            if (slides && transform !== undefined) {
+                slides.style.transform = transform
+            }
         }
         // Mermaid appends a shared tooltip to <body>. Its default absolute
         // position extends the document by a few pixels, which becomes a
