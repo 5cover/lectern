@@ -82,28 +82,17 @@
   text-align: left;
 }
 
-/* Top-anchored, full-height slides with template-tight margins (center:false). */
+/* Slides own the entire reveal canvas. Individual content containers add their
+   reading gutters so full-bleed surfaces never need negative margins. */
 .reveal.profile-engie .slides > section {
   box-sizing: border-box;
   height: 100%;
-  padding: var(--lectern-margin-top) var(--lectern-margin-x) 48px;
-}
-/* Cover + section carry the corner logo → clear the top. */
-.reveal.profile-engie .slides > section.lectern-title-slide,
-.reveal.profile-engie .slides > section.lectern-section-slide {
-  padding-top: 104px;
 }
 
 /* Reveal's print view reparents slides into `.pdf-page` and resets section
-   padding and display with `!important`. These narrowly scoped overrides
-   restore the profile's geometry for PDF pages. */
+   display with `!important`. Restore the profile's flex geometry for PDF pages. */
 html.reveal-print .reveal.profile-engie .pdf-page > section {
   height: 100% !important;
-  padding: var(--lectern-margin-top) var(--lectern-margin-x) 48px !important;
-}
-html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-title-slide,
-html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slide {
-  padding-top: 104px !important;
 }
 html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-slide,
 html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-title-slide,
@@ -152,9 +141,11 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   row-gap: 2em;
+  box-sizing: border-box;
   align-items: stretch;
   height: 100%;
   min-height: 0;
+  padding: var(--lectern-margin-top) var(--lectern-margin-x) 48px;
 }
 .reveal.profile-engie .lectern-slide-main {
   display: flex;
@@ -197,13 +188,25 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   justify-content: initial;
   overflow: hidden;
 }
-.reveal.profile-engie .lectern-title-content {
+.reveal.profile-engie .lectern-title-main,
+.reveal.profile-engie .lectern-section-main {
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+.reveal.profile-engie .lectern-title-content {
+  padding: 0 var(--lectern-margin-x);
+}
+.reveal.profile-engie .lectern-title-slide.has-footer .lectern-title-content {
+  padding-top: 104px;
+}
+.reveal.profile-engie .lectern-title-meta {
+  padding: 0 var(--lectern-margin-x);
 }
 .reveal.profile-engie .lectern-brand-logo {
   position: absolute;
   top: 40px;
+  left: var(--lectern-margin-x);
   height: 52px;
   width: 150px;
   object-fit: contain;
@@ -241,10 +244,10 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
    left-anchored gradient rect. Size lives on the SVG; here we only position it
    and stop flex parents from resizing it. */
 .reveal.profile-engie .lectern-ray {
-  width: 75vw;
+  width: 75%;
   height: 26px;
   position: relative;
-  left: calc(-1 * var(--lectern-margin-x));
+  left: 0;
 }
 .reveal.profile-engie .lectern-title-slide .lectern-ray {
   margin-top: 1.7rem;
@@ -268,9 +271,8 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
 }
 .reveal.profile-engie .lectern-title-footer {
   align-self: stretch;
-  height: 100%;
   min-height: 0;
-  margin: 1.25rem calc(-1 * var(--lectern-margin-x)) -48px;
+  margin: 1.25rem 0 0;
   padding: 0.5em var(--lectern-margin-x) 48px;
   box-sizing: border-box;
   background: var(--lectern-bg);
@@ -303,6 +305,9 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   justify-content: center;
   color: var(--lectern-on-brand);
 }
+.reveal.profile-engie .lectern-section-content {
+  padding: 0 var(--lectern-margin-x);
+}
 
 .reveal.profile-engie .lectern-section-number {
   font-weight: var(--lectern-heading-weight);
@@ -320,7 +325,14 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   color: rgba(255, 255, 255, 0.85);
   font-size: var(--lectern-size-subtitle);
   margin-top: 0.6em;
+  padding: 0 var(--lectern-margin-x);
   font-weight: 400;
+}
+
+/* Reveal preserves the 16:9 design canvas; outside it, keep the cover's navy
+   instead of exposing the viewport's default white. */
+.reveal-viewport.profile-engie {
+  background-color: #17255f;
 }
 
 /* ---- Summary / agenda: numbered chapters in two columns ---- */

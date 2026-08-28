@@ -1,4 +1,5 @@
 import type { ComponentChildren, VNode } from 'preact'
+import { RevealConfig } from 'reveal.js';
 
 /** reveal.js slide transition names. */
 export type Transition = 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom'
@@ -32,7 +33,7 @@ export interface DeckMeta {
     /** Persistent footer text shown on every slide (e.g. confidentiality note). */
     footer?: string
     /** Extra reveal.js config, merged over the defaults. */
-    reveal?: Record<string, unknown>
+    reveal?: Partial<RevealConfig>
 }
 
 export interface DeckProps extends DeckMeta {

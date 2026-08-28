@@ -30,9 +30,8 @@ function sectionAttrs(p: SlideBaseProps) {
 
 /**
  * ENGIE Fluid brand gradient ray — inlined as an SVG (not a CSS background) so
- * its size is a fixed intrinsic dimension that reveal scales uniformly with the
- * slide, rather than a background painting into a layout-dependent box. It bleeds
- * off the left edge of the screen (positioned by `.lectern-ray` in engie.css).
+ * Reveal scales the SVG uniformly with the slide. The profile anchors it to the
+ * canvas edge as a genuine full-bleed visual rather than a painted background.
  *
  * Each instance gets a UNIQUE gradient id: reveal shows one slide at a time and
  * hides the rest with `display:none`. A shared id makes every `url(#id)` resolve
@@ -146,30 +145,34 @@ export function TitleSlide({
         <section
             class={cx('lectern-title-slide', footer ? 'has-footer' : false, cls)}
             {...sectionAttrs({ background: 'var(--lectern-navy)', ...rest })}>
-            <div class="lectern-title-content">
-                <BrandLogo height={logoHeight} />
-                {eyebrow ?
-                    <p class="lectern-eyebrow">{eyebrow}</p>
-                :   null}
-                <h1 class="lectern-title">{title}</h1>
+            <div class="lectern-title-main">
+                <div class="lectern-title-content">
+                    <BrandLogo height={logoHeight} />
+                    {eyebrow ?
+                        <p class="lectern-eyebrow">{eyebrow}</p>
+                    :   null}
+                    <h1 class="lectern-title">{title}</h1>
+                </div>
                 <Ray />
-                {subtitle ?
-                    <p class="lectern-subtitle">{subtitle}</p>
-                :   null}
-                {(author || date) && (
-                    <p class="lectern-byline">
-                        {author ?
-                            <span class="lectern-author">{author}</span>
-                        :   null}
-                        {author && date ?
-                            <span class="lectern-sep"> · </span>
-                        :   null}
-                        {date ?
-                            <span class="lectern-date">{date}</span>
-                        :   null}
-                    </p>
-                )}
-                {children}
+                <div class="lectern-title-meta">
+                    {subtitle ?
+                        <p class="lectern-subtitle">{subtitle}</p>
+                    :   null}
+                    {(author || date) && (
+                        <p class="lectern-byline">
+                            {author ?
+                                <span class="lectern-author">{author}</span>
+                            :   null}
+                            {author && date ?
+                                <span class="lectern-sep"> · </span>
+                            :   null}
+                            {date ?
+                                <span class="lectern-date">{date}</span>
+                            :   null}
+                        </p>
+                    )}
+                    {children}
+                </div>
             </div>
             {confidentiality ?
                 <p class="lectern-confidentiality">{confidentiality}</p>
@@ -195,15 +198,19 @@ export function SectionSlide({ title, subtitle, number, class: cls, logoHeight, 
         <section
             class={cx('lectern-section-slide', cls)}
             {...sectionAttrs({ background: 'var(--lectern-section-bg)', ...rest })}>
-            <BrandLogo height={logoHeight} />
-            {number ?
-                <p class="lectern-section-number">{number}</p>
-            :   null}
-            <h2 class="lectern-section-title">{title}</h2>
-            <Ray />
-            {subtitle ?
-                <p class="lectern-section-subtitle">{subtitle}</p>
-            :   null}
+            <div class="lectern-section-main">
+                <div class="lectern-section-content">
+                    <BrandLogo height={logoHeight} />
+                    {number ?
+                        <p class="lectern-section-number">{number}</p>
+                    :   null}
+                    <h2 class="lectern-section-title">{title}</h2>
+                </div>
+                <Ray />
+                {subtitle ?
+                    <p class="lectern-section-subtitle">{subtitle}</p>
+                :   null}
+            </div>
         </section>
     )
 }

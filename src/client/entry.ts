@@ -48,6 +48,10 @@ async function main() {
     if (config.profile && revealEl && !revealEl.classList.contains(`profile-${config.profile}`)) {
         revealEl.classList.add(`profile-${config.profile}`)
     }
+    const viewport = revealEl?.closest('.reveal-viewport')
+    if (config.profile && viewport && !viewport.classList.contains(`profile-${config.profile}`)) {
+        viewport.classList.add(`profile-${config.profile}`)
+    }
 
     // Theme Mermaid to match the active profile before rendering.
     const brand = cssVar('--lectern-brand', '#007bc5')
