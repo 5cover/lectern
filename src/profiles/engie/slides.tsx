@@ -226,9 +226,10 @@ export interface SummaryProps extends SlideBaseProps {
     items: SummaryItem[]
     /** Slide heading (defaults to "Sommaire"). */
     heading?: ComponentChildren
+    children?: ComponentChildren
 }
 
-export function Summary({ items, heading = 'Sommaire', class: cls, ...rest }: SummaryProps) {
+export function Summary({ items, heading = 'Sommaire', class: cls, children, ...rest }: SummaryProps) {
     return (
         <section class={cx('lectern-slide lectern-summary-slide', cls)} {...sectionAttrs(rest)}>
             <div class="lectern-slide-content">
@@ -251,6 +252,7 @@ export function Summary({ items, heading = 'Sommaire', class: cls, ...rest }: Su
                     </ol>
                 </main>
             </div>
+            {children}
         </section>
     )
 }
