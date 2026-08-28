@@ -59,8 +59,10 @@ async function main() {
     const ink = cssVar('--lectern-ink', '#232d35')
     const line = cssVar('--lectern-line', '#d6dde2')
     const bgSoft = cssVar('--lectern-bg-soft', '#f6f8f9')
+    const fontSize = cssVar('--lectern-size-body', '20px')
     // The profile's *resolved* font stack (from Fluid) — we don't invent a font.
-    // mermaid.css pins labels to the same value so measured/rendered widths agree.
+    // Mermaid pins labels to these values in its generated stylesheet, so its
+    // measurements and the rendered labels remain in agreement with the profile.
     const font = getComputedStyle(revealEl ?? document.documentElement).fontFamily || 'sans-serif'
 
     mermaid.initialize({
@@ -71,6 +73,7 @@ async function main() {
         flowchart: { htmlLabels: false, useMaxWidth: false, padding: 10, nodeSpacing: 50, rankSpacing: 55 },
         themeVariables: {
             fontFamily: font,
+            fontSize,
             primaryColor: bgSoft,
             primaryBorderColor: brand,
             primaryTextColor: ink,
