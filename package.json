@@ -46,17 +46,17 @@
     "lectern": "node --import tsx ./src/cli/index.ts"
   },
   "dependencies": {
-    "@engie-group/fluid-design-system": "^6.2.0",
-    "@engie-group/fluid-design-tokens": "^6.2.0",
-    "cytoscape": "^3.34.1",
+    "@engie-group/fluid-design-system": "6.4.0",
+    "@engie-group/fluid-design-tokens": "^6.2.1",
+    "cytoscape": "^3.35.0",
     "cytoscape-fcose": "^2.2.0",
-    "infograph": "^1.0.0",
-    "mermaid": "^11.16.0",
-    "preact": "^10.24.0",
-    "preact-render-to-string": "^6.5.0",
-    "reveal.js": "^6.0.1",
-    "vite": "^7.0.0",
-    "vite-plugin-singlefile": "^2.0.0"
+    "infograph": "^1.1.1",
+    "mermaid": "^12.3.0",
+    "preact": "^11.2.0",
+    "preact-render-to-string": "^6.8.3",
+    "reveal.js": "^6.0.2",
+    "vite": "^8.3.8",
+    "vite-plugin-singlefile": "^2.3.4"
   },
   "peerDependencies": {
     "playwright": "^1.48.0"
@@ -68,13 +68,13 @@
   },
   "devDependencies": {
     "@types/cytoscape-fcose": "^2.2.5",
-    "@types/node": "^22.0.0",
-    "playwright": "^1.48.0",
-    "prettier": "^3.9.4",
-    "tsup": "^8.3.0",
-    "tsx": "^4.19.0",
-    "typescript": "^5.6.0",
-    "vitest": "^2.1.0"
+    "@types/node": "^26.6.6",
+    "playwright": "^1.65.1",
+    "prettier": "^3.10.1",
+    "tsup": "^9.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "vitest": "^5.1.0"
   },
   "prettier": {
     "printWidth": 120,
@@ -82,29 +82,7 @@
     "singleQuote": true,
     "arrowParens": "avoid",
     "bracketSameLine": true,
-    "semi": false,
-    "endOfLine": "lf",
-    "experimentalTernaries": true,
-    "proseWrap": "never",
     "trailingComma": "es5",
-    "overrides": [
-      {
-        "files": "**/*.ts",
-        "options": {
-          "parser": "typescript"
-        }
-      },
-      {
-        "files": [
-          "**/*.ts",
-          "**/*.tsx",
-          "**/*.js",
-          "**/*.jsx"
-        ],
-        "options": {
-          "tabWidth": 4
-        }
-      }
-    ]
+    "semi": false
   }
 }
