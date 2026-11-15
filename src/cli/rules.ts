@@ -1,5 +1,4 @@
-import { getProfile, profileNames } from '../profiles'
-import type { RuleSeverity } from '../profiles/types'
+import type { Profile, RuleSeverity } from '../profiles/types'
 
 const SEVERITY_LABEL: Record<RuleSeverity, string> = {
   must: 'MUST',
@@ -13,14 +12,7 @@ const dim = (s: string) => (useColor ? `\x1b[2m${s}\x1b[0m` : s)
 const blue = (s: string) => (useColor ? `\x1b[38;5;39m${s}\x1b[0m` : s)
 
 /** Print a profile's natural-language rulebook. */
-export function rules(profileName: string | undefined): void {
-  const name = profileName ?? 'engie'
-  const profile = getProfile(name)
-  if (!profile) {
-    console.error(`Unknown profile: "${name}". Available: ${profileNames().join(', ')}`)
-    process.exit(1)
-  }
-
+export function rules(profile: Profile): void {
   console.log()
   console.log(`  ${bold(profile.label)} ${dim(`(${profile.name})`)} — presentation rules`)
   console.log(`  ${dim(profile.description)}`)

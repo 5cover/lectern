@@ -10,11 +10,12 @@ Usage:
   lectern build [deck.tsx] [--out dist] [--no-single-file]
   lectern serve [deck.tsx] [--port 4321] [--host 127.0.0.1]
   lectern pdf   [deck.tsx] [--out deck.pdf]
-  lectern rules [profile]              (default profile: engie)
+  lectern rules [profile | deck.tsx]   (default profile: engie)
 
 Arguments:
   deck.tsx           Path to the deck entry (default: ./deck.tsx)
-  profile            Profile name to describe (default: engie)
+  profile            Built-in profile name to describe (default: engie);
+                     pass a deck path to describe the profile it uses
 
 Options:
   --port, -p         Dev or production server port (default 4321)
@@ -59,10 +60,22 @@ async function main() {
     return
   }
 
-  // `rules` takes a profile name, not a deck path — handle it before resolving a deck.
+  // `rules` takes a built-in profile name or a deck path; a deck is rendered to find its profile.
   if (command === 'rules') {
     const { rules } = await import('./rules')
-    rules(positionals[0])
+    const target = positionals[0]
+    if (target && existsSync(resolve(process.cwd(), target))) {
+      const { renderStatic } = await import('./build')
+      rules((await renderStatic(resolveDeck(target))).profile)
+    } else {
+      const { resolveProfile } = await import('../profiles')
+      try {
+        rules(resolveProfile(target))
+      } catch (err) {
+        console.error((err as Error).message)
+        process.exit(1)
+      }
+    }
     return
   }
 
