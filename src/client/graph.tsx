@@ -150,16 +150,15 @@ export function initInfographDiscovery(deck: RevealLike): Promise<void> {
         ] satisfies cytoscape.StylesheetStyle[],
         layout: { name: 'grid', animate: false },
       })
-      const layout = cy.layout({
+      const layoutOptions: fcose.FcoseLayoutOptions = {
         name: 'fcose',
         animate: false,
         idealEdgeLength: () => 50,
         nodeRepulsion: () => 7000,
-        componentSpacing: 45,
         padding: 10,
-        nodeOverlap: 8,
         nodeDimensionsIncludeLabels: true,
-      } satisfies cytoscape.LayoutOptions)
+      }
+      const layout = cy.layout(layoutOptions)
       layout.one('layoutstop', () => {
         cy?.fit(undefined, 24)
         if (initialLayoutFinished) return

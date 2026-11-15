@@ -41,7 +41,7 @@ function sectionAttrs(p: SlideBaseProps) {
  */
 let rayId = 0
 
-function BrandLogo({ height }: { height: number }) {
+function BrandLogo({ height }: { height?: number }) {
   return <img class="lectern-brand-logo" src={engieLogoWhite} height={height} alt="ENGIE" />
 }
 
@@ -117,7 +117,7 @@ export interface TitleSlideProps extends SlideBaseProps {
   /** Full-width panel that occupies the remaining lower part of the cover. */
   footer?: ComponentChildren
   children?: ComponentChildren
-  logoHeight: number
+  logoHeight?: number
 }
 
 export function TitleSlide({
@@ -168,7 +168,7 @@ export interface SectionSlideProps extends SlideBaseProps {
   subtitle?: ComponentChildren
   /** Section number, e.g. "02". */
   number?: ComponentChildren
-  logoHeight: number
+  logoHeight?: number
 }
 
 export function SectionSlide({ title, subtitle, number, class: cls, logoHeight, ...rest }: SectionSlideProps) {

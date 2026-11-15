@@ -183,7 +183,7 @@ describe('renderToHtml', () => {
 
   it('escapes </script> safely inside the config JSON', () => {
     const html = renderToHtml(
-      <Deck title="t" reveal={{ note: '</script><script>alert(1)</script>' }}>
+      <Deck title="t" reveal={{ display: '</script><script>alert(1)</script>' }}>
         <Slide heading="H" />
       </Deck>
     )
