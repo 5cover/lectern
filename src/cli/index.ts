@@ -25,89 +25,89 @@ Options:
 `
 
 function resolveDeck(input: string | undefined): string {
-    const candidate = resolve(process.cwd(), input ?? 'deck.tsx')
-    if (!existsSync(candidate)) {
-        console.error(`Deck not found: ${candidate}`)
-        process.exit(1)
-    }
-    return candidate
+  const candidate = resolve(process.cwd(), input ?? 'deck.tsx')
+  if (!existsSync(candidate)) {
+    console.error(`Deck not found: ${candidate}`)
+    process.exit(1)
+  }
+  return candidate
 }
 
 async function main() {
-    const argv = process.argv.slice(2)
-    const command = argv[0]
+  const argv = process.argv.slice(2)
+  const command = argv[0]
 
-    if (!command || command === '--help' || command === '-h' || command === 'help') {
-        console.log(HELP)
-        return
+  if (!command || command === '--help' || command === '-h' || command === 'help') {
+    console.log(HELP)
+    return
+  }
+
+  const { values, positionals } = parseArgs({
+    args: argv.slice(1),
+    allowPositionals: true,
+    options: {
+      port: { type: 'string', short: 'p' },
+      host: { type: 'string' },
+      out: { type: 'string', short: 'o' },
+      'single-file': { type: 'boolean', default: true },
+      help: { type: 'boolean', short: 'h' },
+    },
+  })
+
+  if (values.help) {
+    console.log(HELP)
+    return
+  }
+
+  // `rules` takes a profile name, not a deck path — handle it before resolving a deck.
+  if (command === 'rules') {
+    const { rules } = await import('./rules')
+    rules(positionals[0])
+    return
+  }
+
+  const deckPath = resolveDeck(positionals[0])
+
+  switch (command) {
+    case 'dev': {
+      const { dev } = await import('./dev')
+      await dev({ deckPath, port: values.port ? Number(values.port) : 4321 })
+      break
     }
-
-    const { values, positionals } = parseArgs({
-        args: argv.slice(1),
-        allowPositionals: true,
-        options: {
-            port: { type: 'string', short: 'p' },
-            host: { type: 'string' },
-            out: { type: 'string', short: 'o' },
-            'single-file': { type: 'boolean', default: true },
-            help: { type: 'boolean', short: 'h' },
-        },
-    })
-
-    if (values.help) {
-        console.log(HELP)
-        return
+    case 'build': {
+      const { build } = await import('./build')
+      const outDir = values.out ?? 'dist'
+      const file = await build({ deckPath, outDir, singleFile: values['single-file'] })
+      console.log(`✔ Built ${file}`)
+      break
     }
-
-    // `rules` takes a profile name, not a deck path — handle it before resolving a deck.
-    if (command === 'rules') {
-        const { rules } = await import('./rules')
-        rules(positionals[0])
-        return
+    case 'serve': {
+      const { serve } = await import('./serve')
+      const { url } = await serve({
+        deckPath,
+        port: values.port ? Number(values.port) : 4321,
+        host: values.host ?? '127.0.0.1',
+      })
+      console.log(
+        `\n  lectern production server running\n  ➜  ${url}\n  Built from ${deckPath}. Source changes require a restart. Ctrl+C to stop.\n`
+      )
+      break
     }
-
-    const deckPath = resolveDeck(positionals[0])
-
-    switch (command) {
-        case 'dev': {
-            const { dev } = await import('./dev')
-            await dev({ deckPath, port: values.port ? Number(values.port) : 4321 })
-            break
-        }
-        case 'build': {
-            const { build } = await import('./build')
-            const outDir = values.out ?? 'dist'
-            const file = await build({ deckPath, outDir, singleFile: values['single-file'] })
-            console.log(`✔ Built ${file}`)
-            break
-        }
-        case 'serve': {
-            const { serve } = await import('./serve')
-            const { url } = await serve({
-                deckPath,
-                port: values.port ? Number(values.port) : 4321,
-                host: values.host ?? '127.0.0.1',
-            })
-            console.log(
-                `\n  lectern production server running\n  ➜  ${url}\n  Built from ${deckPath}. Source changes require a restart. Ctrl+C to stop.\n`
-            )
-            break
-        }
-        case 'pdf': {
-            const { pdf } = await import('./pdf')
-            const out = values.out ?? 'deck.pdf'
-            const file = await pdf({ deckPath, out })
-            console.log(`✔ Exported ${file}`)
-            break
-        }
-        default:
-            console.error(`Unknown command: ${command}\n`)
-            console.log(HELP)
-            process.exit(1)
+    case 'pdf': {
+      const { pdf } = await import('./pdf')
+      const out = values.out ?? 'deck.pdf'
+      const file = await pdf({ deckPath, out })
+      console.log(`✔ Exported ${file}`)
+      break
     }
+    default:
+      console.error(`Unknown command: ${command}\n`)
+      console.log(HELP)
+      process.exit(1)
+  }
 }
 
 main().catch(err => {
-    console.error(err)
-    process.exit(1)
+  console.error(err)
+  process.exit(1)
 })

@@ -18,156 +18,156 @@ import 'reveal.js/reveal.css'
 import '../profiles/engie/engie.css'
 
 interface PresentConfig {
-    profile?: string
-    transition?: string
-    reveal?: Record<string, unknown>
+  profile?: string
+  transition?: string
+  reveal?: Record<string, unknown>
 }
 
 function readConfig(): PresentConfig {
-    const el = document.getElementById('lectern-config')
-    if (!el?.textContent) return {}
-    try {
-        return JSON.parse(el.textContent) as PresentConfig
-    } catch {
-        return {}
-    }
+  const el = document.getElementById('lectern-config')
+  if (!el?.textContent) return {}
+  try {
+    return JSON.parse(el.textContent) as PresentConfig
+  } catch {
+    return {}
+  }
 }
 
 // Profile tokens live on the `.reveal.profile-<name>` element, not :root.
 function cssVar(name: string, fallback: string): string {
-    const root = document.querySelector('.reveal') ?? document.documentElement
-    const v = getComputedStyle(root).getPropertyValue(name).trim()
-    return v || fallback
+  const root = document.querySelector('.reveal') ?? document.documentElement
+  const v = getComputedStyle(root).getPropertyValue(name).trim()
+  return v || fallback
 }
 
 async function main() {
-    const config = readConfig()
+  const config = readConfig()
 
-    // Ensure the active profile class is lectern (the renderer sets it server-side).
-    const revealEl = document.querySelector('.reveal')
-    if (config.profile && revealEl && !revealEl.classList.contains(`profile-${config.profile}`)) {
-        revealEl.classList.add(`profile-${config.profile}`)
+  // Ensure the active profile class is lectern (the renderer sets it server-side).
+  const revealEl = document.querySelector('.reveal')
+  if (config.profile && revealEl && !revealEl.classList.contains(`profile-${config.profile}`)) {
+    revealEl.classList.add(`profile-${config.profile}`)
+  }
+  const viewport = revealEl?.closest('.reveal-viewport')
+  if (config.profile && viewport && !viewport.classList.contains(`profile-${config.profile}`)) {
+    viewport.classList.add(`profile-${config.profile}`)
+  }
+
+  // Theme Mermaid to match the active profile before rendering.
+  const brand = cssVar('--lectern-brand', '#007bc5')
+  const brandStrong = cssVar('--lectern-brand-strong', '#004573')
+  const ink = cssVar('--lectern-ink', '#232d35')
+  const line = cssVar('--lectern-line', '#d6dde2')
+  const bgSoft = cssVar('--lectern-bg-soft', '#f6f8f9')
+  // The profile's *resolved* font stack (from Fluid) — we don't invent a font.
+  // Mermaid pins labels to this value in its generated stylesheet, so measured
+  // and rendered widths agree.
+  const font = getComputedStyle(revealEl ?? document.documentElement).fontFamily || 'sans-serif'
+
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: 'loose',
+    theme: 'base',
+    fontFamily: font,
+    flowchart: { htmlLabels: false, useMaxWidth: false, padding: 10, nodeSpacing: 50, rankSpacing: 55 },
+    themeVariables: {
+      fontFamily: font,
+      primaryColor: bgSoft,
+      primaryBorderColor: brand,
+      primaryTextColor: ink,
+      lineColor: brandStrong,
+      secondaryColor: '#ffffff',
+      tertiaryColor: bgSoft,
+      tertiaryBorderColor: line,
+      clusterBkg: '#ffffff',
+      clusterBorder: line,
+    },
+  })
+
+  const deck = new Reveal({
+    width: 1280,
+    height: 720,
+    // Let the presentation fill any viewport. A deck may still explicitly
+    // cap either value through its `reveal` configuration.
+    minScale: 0,
+    maxScale: Infinity,
+    hash: true,
+    // In PDF export, keep one page per slide (show all fragments) instead of one page per fragment step: better for a handout.
+    pdfSeparateFragments: false,
+    transition: (config.transition as 'slide') ?? 'slide',
+    plugins: [RevealHighlight, RevealNotes],
+    ...(config.reveal ?? {}),
+  })
+
+  await deck.initialize()
+
+  // Mermaid must render while its slide is VISIBLE: a diagram rendered inside a `display:none` slide collapses to zero size. So we render lazily: all at once for PDF (every slide is shown), otherwise per-slide on navigation.
+  async function renderMermaid(scope: ParentNode | null) {
+    const nodes = Array.from((scope ?? document).querySelectorAll<HTMLElement>('.mermaid:not([data-processed])'))
+    if (!nodes.length) return
+    // Mermaid measures SVG labels in screen coordinates. Reveal scales the
+    // `.slides` canvas with a CSS transform, which would make Mermaid bake
+    // that scale into node dimensions and then scale them a second time.
+    // Render in the unscaled 1280×720 coordinate system, then restore
+    // Reveal's transform for display.
+    const slides = document.querySelector<HTMLElement>('.reveal .slides')
+    const transform = slides?.style.transform
+    if (slides && transform?.includes('scale(')) {
+      slides.style.transform = transform.replace(/scale\([^)]*\)/, 'scale(1)')
     }
-    const viewport = revealEl?.closest('.reveal-viewport')
-    if (config.profile && viewport && !viewport.classList.contains(`profile-${config.profile}`)) {
-        viewport.classList.add(`profile-${config.profile}`)
+    try {
+      await mermaid.run({ nodes })
+    } catch (err) {
+      console.error('[lectern] mermaid render error', err)
+    } finally {
+      if (slides && transform !== undefined) {
+        slides.style.transform = transform
+      }
     }
-
-    // Theme Mermaid to match the active profile before rendering.
-    const brand = cssVar('--lectern-brand', '#007bc5')
-    const brandStrong = cssVar('--lectern-brand-strong', '#004573')
-    const ink = cssVar('--lectern-ink', '#232d35')
-    const line = cssVar('--lectern-line', '#d6dde2')
-    const bgSoft = cssVar('--lectern-bg-soft', '#f6f8f9')
-    // The profile's *resolved* font stack (from Fluid) — we don't invent a font.
-    // Mermaid pins labels to this value in its generated stylesheet, so measured
-    // and rendered widths agree.
-    const font = getComputedStyle(revealEl ?? document.documentElement).fontFamily || 'sans-serif'
-
-    mermaid.initialize({
-        startOnLoad: false,
-        securityLevel: 'loose',
-        theme: 'base',
-        fontFamily: font,
-        flowchart: { htmlLabels: false, useMaxWidth: false, padding: 10, nodeSpacing: 50, rankSpacing: 55 },
-        themeVariables: {
-            fontFamily: font,
-            primaryColor: bgSoft,
-            primaryBorderColor: brand,
-            primaryTextColor: ink,
-            lineColor: brandStrong,
-            secondaryColor: '#ffffff',
-            tertiaryColor: bgSoft,
-            tertiaryBorderColor: line,
-            clusterBkg: '#ffffff',
-            clusterBorder: line,
-        },
+    // Mermaid appends a shared tooltip to <body>. Its default absolute
+    // position extends the document by a few pixels, which becomes a
+    // trailing blank PDF page in print mode. Keep it available for hover
+    // interactions without letting it participate in document height.
+    document.querySelectorAll<HTMLElement>('body > .mermaidTooltip').forEach(tooltip => {
+      tooltip.style.position = 'fixed'
     })
+    deck.layout()
+  }
 
-    const deck = new Reveal({
-        width: 1280,
-        height: 720,
-        // Let the presentation fill any viewport. A deck may still explicitly
-        // cap either value through its `reveal` configuration.
-        minScale: 0,
-        maxScale: Infinity,
-        hash: true,
-        // In PDF export, keep one page per slide (show all fragments) instead of one page per fragment step: better for a handout.
-        pdfSeparateFragments: false,
-        transition: (config.transition as 'slide') ?? 'slide',
-        plugins: [RevealHighlight, RevealNotes],
-        ...(config.reveal ?? {}),
+  const isPrint = /print-pdf/.test(location.search)
+  if (isPrint) {
+    const formatPdfSlideNumbers = () => {
+      const pages = Array.from(document.querySelectorAll<HTMLElement>('.pdf-page'))
+      pages.forEach((page, index) => {
+        const number = page.querySelector<HTMLElement>('.slide-number-pdf')
+        if (number) number.textContent = `${index + 1} / ${pages.length}`
+      })
+    }
+    deck.on('pdf-ready', formatPdfSlideNumbers)
+    await renderMermaid(document)
+    // Reveal's PDF renderer ignores the `c/t` slide-number format and
+    // injects a bare sequential number into each generated `.pdf-page`.
+    // Its asynchronous `pdf-ready` event is the point at which the total
+    // number of exported pages is known.
+    formatPdfSlideNumbers()
+  } else {
+    await renderMermaid(deck.getCurrentSlide())
+    deck.on('slidechanged', event => {
+      void renderMermaid((event as unknown as { currentSlide: HTMLElement }).currentSlide)
     })
+  }
 
-    await deck.initialize()
+  // Opt-in infograph discovery. Dynamic import keeps Cytoscape out of decks
+  // that do not embed the component; in PDF mode it renders the seed graph
+  // without an interactive surface.
+  if (document.querySelector('[data-lectern-infograph-discovery]')) {
+    const { initInfographDiscovery } = await import('./graph')
+    const infographReady = initInfographDiscovery(deck as unknown as Parameters<typeof initInfographDiscovery>[0])
+    if (isPrint) await infographReady
+  }
 
-    // Mermaid must render while its slide is VISIBLE: a diagram rendered inside a `display:none` slide collapses to zero size. So we render lazily: all at once for PDF (every slide is shown), otherwise per-slide on navigation.
-    async function renderMermaid(scope: ParentNode | null) {
-        const nodes = Array.from((scope ?? document).querySelectorAll<HTMLElement>('.mermaid:not([data-processed])'))
-        if (!nodes.length) return
-        // Mermaid measures SVG labels in screen coordinates. Reveal scales the
-        // `.slides` canvas with a CSS transform, which would make Mermaid bake
-        // that scale into node dimensions and then scale them a second time.
-        // Render in the unscaled 1280×720 coordinate system, then restore
-        // Reveal's transform for display.
-        const slides = document.querySelector<HTMLElement>('.reveal .slides')
-        const transform = slides?.style.transform
-        if (slides && transform?.includes('scale(')) {
-            slides.style.transform = transform.replace(/scale\([^)]*\)/, 'scale(1)')
-        }
-        try {
-            await mermaid.run({ nodes })
-        } catch (err) {
-            console.error('[lectern] mermaid render error', err)
-        } finally {
-            if (slides && transform !== undefined) {
-                slides.style.transform = transform
-            }
-        }
-        // Mermaid appends a shared tooltip to <body>. Its default absolute
-        // position extends the document by a few pixels, which becomes a
-        // trailing blank PDF page in print mode. Keep it available for hover
-        // interactions without letting it participate in document height.
-        document.querySelectorAll<HTMLElement>('body > .mermaidTooltip').forEach(tooltip => {
-            tooltip.style.position = 'fixed'
-        })
-        deck.layout()
-    }
-
-    const isPrint = /print-pdf/.test(location.search)
-    if (isPrint) {
-        const formatPdfSlideNumbers = () => {
-            const pages = Array.from(document.querySelectorAll<HTMLElement>('.pdf-page'))
-            pages.forEach((page, index) => {
-                const number = page.querySelector<HTMLElement>('.slide-number-pdf')
-                if (number) number.textContent = `${index + 1} / ${pages.length}`
-            })
-        }
-        deck.on('pdf-ready', formatPdfSlideNumbers)
-        await renderMermaid(document)
-        // Reveal's PDF renderer ignores the `c/t` slide-number format and
-        // injects a bare sequential number into each generated `.pdf-page`.
-        // Its asynchronous `pdf-ready` event is the point at which the total
-        // number of exported pages is known.
-        formatPdfSlideNumbers()
-    } else {
-        await renderMermaid(deck.getCurrentSlide())
-        deck.on('slidechanged', event => {
-            void renderMermaid((event as unknown as { currentSlide: HTMLElement }).currentSlide)
-        })
-    }
-
-    // Opt-in infograph discovery. Dynamic import keeps Cytoscape out of decks
-    // that do not embed the component; in PDF mode it renders the seed graph
-    // without an interactive surface.
-    if (document.querySelector('[data-lectern-infograph-discovery]')) {
-        const { initInfographDiscovery } = await import('./graph')
-        const infographReady = initInfographDiscovery(deck as unknown as Parameters<typeof initInfographDiscovery>[0])
-        if (isPrint) await infographReady
-    }
-
-    // Expose for tooling (PDF export waits on this).
-    ;(window as unknown as { Reveal: unknown }).Reveal = deck
+  // Expose for tooling (PDF export waits on this).
+  ;(window as unknown as { Reveal: unknown }).Reveal = deck
 }
 
 void main()

@@ -10,10 +10,10 @@ import type { DeckProps } from '../types'
  * the deck is passed to `lectern`'s renderer / CLI.
  */
 export function Deck(props: DeckProps) {
-    return <>{props.children}</>
+  return <>{props.children}</>
 }
 
 /** Type guard: is this VNode a <Deck>? Used by the renderer. */
 export function isDeck(node: unknown): node is { props: DeckProps } {
-    return typeof node === 'object' && node !== null && 'type' in node && (node as { type?: unknown }).type === Deck
+  return typeof node === 'object' && node !== null && 'type' in node && (node as { type?: unknown }).type === Deck
 }

@@ -95,7 +95,7 @@ Extend Lectern's authoring config in your project's `tsconfig.json`:
 ```jsonc
 {
   "extends": "lectern/tsconfig.json",
-  "include": ["deck.tsx"]
+  "include": ["deck.tsx"],
 }
 ```
 
@@ -109,28 +109,28 @@ Components split by **who owns the layout decision**. Neutral, structure-only pr
 
 **Core `lectern`** (neutral — reusable across profiles):
 
-| Component                                                  | Purpose                                          |
-| ---------------------------------------------------------- | ------------------------------------------------ |
-| `<Deck>`                                                   | Root; holds metadata + slides                    |
-| `<Columns ratio tracks fill>` / `<Stack fill>` / `<Grid cols>` / `<Spacer>` | Layout primitives               |
-| `<Code lang lineNumbers>` / `<Mermaid>`                    | Highlighted code · Mermaid diagram               |
-| `<Notes>` / `<Fragment>` / `<Raw html>`                    | Speaker notes · fragment · raw-HTML escape hatch |
+| Component                                                                   | Purpose                                          |
+| --------------------------------------------------------------------------- | ------------------------------------------------ |
+| `<Deck>`                                                                    | Root; holds metadata + slides                    |
+| `<Columns ratio tracks fill>` / `<Stack fill>` / `<Grid cols>` / `<Spacer>` | Layout primitives                                |
+| `<Code lang lineNumbers>` / `<Mermaid>`                                     | Highlighted code · Mermaid diagram               |
+| `<Notes>` / `<Fragment>` / `<Raw html>`                                     | Speaker notes · fragment · raw-HTML escape hatch |
 
 **`lectern/engie`** (the ENGIE authoring surface — template-accurate):
 
-| Component                         | Purpose                                            |
-| --------------------------------- | -------------------------------------------------- |
-| `<Deck>`                          | ENGIE-bound root (pins `profile="engie"`)          |
-| `<TitleSlide>`                    | Navy cover, white title, logo, confidentiality tag |
-| `<SectionSlide number>`           | Navy full-bleed section divider                    |
-| `<Slide heading subtitle kicker>` | Content slide (navy title, ~25pt)                  |
-| `<Summary items>`                 | Numbered chapters / agenda                         |
-| `<Bullets>` / `<Steps>`           | Lists                                              |
-| `<Metric value label trend tone>` | KPI figure                                         |
-| `<Timeline items>`                | Opinionated **horizontal** timeline                |
-| `<Quote cite>` / `<Lead>`         | Emphasis                                           |
-| `<Star.Situation>` / `.Task` / `.Action` / `.Result` | STAR stages in normal flow, with no wrapper |
-| `<Swot strengths weaknesses opportunities threats>` | Editorial SWOT matrix with a central S/W/O/T marker |
+| Component                                            | Purpose                                             |
+| ---------------------------------------------------- | --------------------------------------------------- |
+| `<Deck>`                                             | ENGIE-bound root (pins `profile="engie"`)           |
+| `<TitleSlide>`                                       | Navy cover, white title, logo, confidentiality tag  |
+| `<SectionSlide number>`                              | Navy full-bleed section divider                     |
+| `<Slide heading subtitle kicker>`                    | Content slide (navy title, ~25pt)                   |
+| `<Summary items>`                                    | Numbered chapters / agenda                          |
+| `<Bullets>` / `<Steps>`                              | Lists                                               |
+| `<Metric value label trend tone>`                    | KPI figure                                          |
+| `<Timeline items>`                                   | Opinionated **horizontal** timeline                 |
+| `<Quote cite>` / `<Lead>`                            | Emphasis                                            |
+| `<Star.Situation>` / `.Task` / `.Action` / `.Result` | STAR stages in normal flow, with no wrapper         |
+| `<Swot strengths weaknesses opportunities threats>`  | Editorial SWOT matrix with a central S/W/O/T marker |
 
 ### Escape hatches
 

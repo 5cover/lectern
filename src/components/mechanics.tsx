@@ -13,25 +13,22 @@ import { cx } from './util'
  * renderer, so `<`, `>` and `&` display correctly.
  */
 export interface CodeProps extends StyleEscapeHatch {
-    children: string
-    /** Language for highlighting, e.g. "js", "json", "bash". */
-    lang?: string
-    /** Show line numbers, optionally with a highlight spec like "2-4|6". */
-    lineNumbers?: boolean | string
+  children: string
+  /** Language for highlighting, e.g. "js", "json", "bash". */
+  lang?: string
+  /** Show line numbers, optionally with a highlight spec like "2-4|6". */
+  lineNumbers?: boolean | string
 }
 
 export function Code({ children, lang, lineNumbers, class: cls, style }: CodeProps) {
-    const dataLineNumbers =
-        typeof lineNumbers === 'string' ? lineNumbers
-        : lineNumbers ? ''
-        : undefined
-    return (
-        <pre class={cx('lectern-code', cls)} style={style}>
-            <code class={lang ? `language-${lang}` : undefined} data-trim data-line-numbers={dataLineNumbers}>
-                {children}
-            </code>
-        </pre>
-    )
+  const dataLineNumbers = typeof lineNumbers === 'string' ? lineNumbers : lineNumbers ? '' : undefined
+  return (
+    <pre class={cx('lectern-code', cls)} style={style}>
+      <code class={lang ? `language-${lang}` : undefined} data-trim data-line-numbers={dataLineNumbers}>
+        {children}
+      </code>
+    </pre>
+  )
 }
 
 /**
@@ -39,33 +36,33 @@ export function Code({ children, lang, lineNumbers, class: cls, style }: CodePro
  * rendered in the browser by the bundled Mermaid runtime (themed by the profile).
  */
 export function Mermaid({ children, class: cls, style }: { children: string } & StyleEscapeHatch) {
-    return (
-        <pre class={cx('mermaid', cls)} style={style}>
-            {children}
-        </pre>
-    )
+  return (
+    <pre class={cx('mermaid', cls)} style={style}>
+      {children}
+    </pre>
+  )
 }
 
 /** Speaker notes: hidden on slides, shown in reveal's speaker view (press S). */
 export function Notes({ children }: { children: ComponentChildren }) {
-    return <aside class="notes">{children}</aside>
+  return <aside class="notes">{children}</aside>
 }
 
 /** Wrap content so it appears as a reveal.js fragment (on the next advance). */
 export interface FragmentProps {
-    children: ComponentChildren
-    /** Fragment animation type, e.g. "fade-in", "highlight-red". */
-    type?: string
-    /** Explicit ordering index. */
-    index?: number
+  children: ComponentChildren
+  /** Fragment animation type, e.g. "fade-in", "highlight-red". */
+  type?: string
+  /** Explicit ordering index. */
+  index?: number
 }
 
 export function Fragment({ children, type, index }: FragmentProps) {
-    return (
-        <span class={cx('fragment', type)} data-fragment-index={index}>
-            {children}
-        </span>
-    )
+  return (
+    <span class={cx('fragment', type)} data-fragment-index={index}>
+      {children}
+    </span>
+  )
 }
 
 /**
@@ -73,5 +70,5 @@ export function Fragment({ children, type, index }: FragmentProps) {
  * correctness and safety. Content is emitted verbatim (not escaped).
  */
 export function Raw({ html }: { html: string }) {
-    return <div class="lectern-raw" dangerouslySetInnerHTML={{ __html: html }} />
+  return <div class="lectern-raw" dangerouslySetInnerHTML={{ __html: html }} />
 }

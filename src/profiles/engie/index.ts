@@ -13,30 +13,30 @@ import type { DeckProps } from '../../types'
  * Returns a core `<Deck>` vnode (not a Fragment) so the renderer recognises it.
  */
 export function Deck(props: DeckProps) {
-    return h(CoreDeck, { profile: 'engie', ...props })
+  return h(CoreDeck, { profile: 'engie', ...props })
 }
 export { isDeck } from '../../components/Deck'
 
 export { TitleSlide, SectionSlide, Slide, Summary } from './slides'
 export type {
-    SlideProps,
-    TitleSlideProps,
-    SectionSlideProps,
-    SummaryProps,
-    SummaryItem,
-    Confidentiality,
+  SlideProps,
+  TitleSlideProps,
+  SectionSlideProps,
+  SummaryProps,
+  SummaryItem,
+  Confidentiality,
 } from './slides'
 
 export { Bullets, Steps, Star, Swot, Metric, Collaborator, Timeline, Quote, Lead } from './atoms'
 export type {
-    BulletsProps,
-    StarItemProps,
-    SwotProps,
-    MetricProps,
-    CollaboratorProps,
-    TimelineProps,
-    TimelineItem,
-    QuoteProps,
+  BulletsProps,
+  StarItemProps,
+  SwotProps,
+  MetricProps,
+  CollaboratorProps,
+  TimelineProps,
+  TimelineItem,
+  QuoteProps,
 } from './atoms'
 
 // The profile metadata (rules / reveal config / label).
