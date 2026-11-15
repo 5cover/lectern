@@ -19,4 +19,12 @@ export function profileNames(): string[] {
   return Object.keys(profiles)
 }
 
+/** Resolve a deck's `profile` (object or built-in name) to a profile; throws on an unknown name. */
+export function resolveProfile(profile: string | Profile | undefined): Profile {
+  if (typeof profile === 'object') return profile
+  const found = getProfile(profile)
+  if (!found) throw new Error(`Unknown profile: "${profile}". Available: ${profileNames().join(', ')}`)
+  return found
+}
+
 export type { Profile, Rule, RuleGroup, RuleSeverity } from './types'

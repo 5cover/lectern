@@ -1,5 +1,7 @@
 import { existsSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { isAbsolute, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import type { Profile } from '../profiles/types'
 
 /** Convert any OS path to a POSIX-style path (safe in import specifiers / Vite ids). */
 export function posix(p: string): string {
@@ -43,6 +45,21 @@ const ENGIE_MODULE = firstExisting(
   join(BASE, 'profiles', 'engie', 'index.ts'),
   join(PACKAGE_ROOT, 'dist', 'profiles', 'engie', 'index.js')
 )
+const ENGIE_STYLESHEET = join(PACKAGE_ROOT, 'src', 'profiles', 'engie', 'engie.css')
+
+/**
+ * Source of the browser entry module: lectern's client runtime, then the
+ * profile's stylesheet, so profile rules come last in the cascade.
+ */
+export function clientEntrySource(profile: Profile): string {
+  const imports = [posix(CLIENT_ENTRY)]
+  const { stylesheet } = profile
+  if (stylesheet) {
+    const spec = String(stylesheet)
+    imports.push(spec.startsWith('file:') ? posix(fileURLToPath(spec)) : isAbsolute(spec) ? posix(spec) : spec)
+  }
+  return imports.map(i => `import ${JSON.stringify(i)};`).join('\n')
+}
 
 /**
  * When running inside the `lectern` repo, decks import the bare `lectern` specifier, which node_modules can't resolve (this *is* that package).
@@ -53,6 +70,7 @@ export function presentAlias(): Array<{ find: RegExp; replacement: string }> {
     { find: /^lectern\/jsx-runtime$/, replacement: JSX_MODULE },
     { find: /^lectern\/jsx-dev-runtime$/, replacement: JSX_MODULE },
     { find: /^lectern\/engie$/, replacement: ENGIE_MODULE },
+    { find: /^lectern\/engie\.css$/, replacement: ENGIE_STYLESHEET },
     { find: /^lectern$/, replacement: INDEX_MODULE },
   ]
 }

@@ -1,8 +1,7 @@
-import { DEFAULT_PROFILE } from '../profiles'
-import type { DeckMeta } from '../types'
+import type { ResolvedDeckMeta } from '../types'
 
 export interface ShellInput {
-  meta: DeckMeta
+  meta: ResolvedDeckMeta
   slidesHtml: string
   /**
    * Injected before `</body>`
@@ -23,9 +22,9 @@ function escapeHtml(s: string): string {
 }
 
 /** Serialize deck config for the client, safe to embed in a `<script>`. */
-function configScript(meta: DeckMeta): string {
+function configScript(meta: ResolvedDeckMeta): string {
   const config = {
-    profile: meta.profile ?? DEFAULT_PROFILE,
+    profile: meta.profile,
     transition: meta.transition ?? 'slide',
     reveal: meta.reveal ?? {},
   }
@@ -34,7 +33,7 @@ function configScript(meta: DeckMeta): string {
   return `<script type="application/json" id="lectern-config">${json}</script>`
 }
 
-function footer(meta: DeckMeta): string {
+function footer(meta: ResolvedDeckMeta): string {
   if (!meta.footer && !meta.author) return ''
   const parts: string[] = []
   if (meta.author) parts.push(`<span class="lectern-footer-brand">${escapeHtml(meta.author)}</span>`)
@@ -56,7 +55,7 @@ export function htmlShell({ meta, slidesHtml, bodyScripts, headTags }: ShellInpu
     ${headTags}
   </head>
   <body>
-    <div class="reveal profile-${meta.profile ?? DEFAULT_PROFILE}">
+    <div class="reveal profile-${meta.profile}">
       <div class="slides">
 ${slidesHtml}
       </div>

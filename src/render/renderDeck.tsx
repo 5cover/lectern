@@ -1,8 +1,9 @@
 import { Fragment, h, type VNode } from 'preact'
 import { render } from 'preact-render-to-string'
 import { isDeck } from '../components/Deck'
-import { getProfile } from '../profiles'
-import type { DeckMeta } from '../types'
+import { DEFAULT_PROFILE, resolveProfile } from '../profiles'
+import type { Profile } from '../profiles/types'
+import type { DeckMeta, ResolvedDeckMeta } from '../types'
 import { htmlShell } from './template'
 
 export interface RenderOptions {
@@ -11,21 +12,21 @@ export interface RenderOptions {
   /** Extra tags for <head> (e.g. hashed CSS from a bundler). */
   headTags?: string
   /** Override/merge deck metadata. */
-  meta?: Partial<DeckMeta>
+  meta?: Partial<Omit<DeckMeta, 'profile'>>
 }
 
 const DEFAULT_META: Required<Pick<DeckMeta, 'title' | 'profile' | 'transition'>> = {
   title: 'Untitled deck',
-  profile: 'engie',
+  profile: DEFAULT_PROFILE,
   transition: 'slide',
 }
 
 /**
- * Turn a deck VNode into its metadata + the inner `.slides` HTML.
- * Reads deck-level props from a top-level `<Deck>`; if the export is a raw
- * fragment/array of slides, sensible defaults are used.
+ * Turn a deck VNode into its metadata, its resolved profile and the inner
+ * `.slides` HTML. Reads deck-level props from a top-level `<Deck>`; if the
+ * export is a raw fragment/array of slides, sensible defaults are used.
  */
-export function renderDeck(deck: VNode | VNode[]): { meta: DeckMeta; slidesHtml: string } {
+export function renderDeck(deck: VNode | VNode[]): { meta: ResolvedDeckMeta; profile: Profile; slidesHtml: string } {
   let meta: DeckMeta = { ...DEFAULT_META }
   let slides: unknown = deck
 
@@ -49,14 +50,16 @@ export function renderDeck(deck: VNode | VNode[]): { meta: DeckMeta; slidesHtml:
   }
 
   // Merge the profile's reveal defaults under any per-deck overrides.
-  const profile = getProfile(meta.profile)
-  if (profile?.reveal) {
-    meta = { ...meta, reveal: { ...profile.reveal, ...(meta.reveal ?? {}) } }
+  const profile = resolveProfile(meta.profile)
+  const resolved: ResolvedDeckMeta = {
+    ...meta,
+    profile: profile.name,
+    reveal: { ...profile.reveal, ...meta.reveal },
   }
 
   // Wrap in a Fragment so arrays / multiple roots render cleanly.
   const slidesHtml = render(h(Fragment, null, slides as never))
-  return { meta, slidesHtml }
+  return { meta: resolved, profile, slidesHtml }
 }
 
 /** Full standalone HTML document for a deck. */

@@ -29,7 +29,8 @@
     "./engie": {
       "types": "./dist/profiles/engie/index.d.ts",
       "import": "./dist/profiles/engie/index.js"
-    }
+    },
+    "./engie.css": "./src/profiles/engie/engie.css"
   },
   "files": [
     "dist",

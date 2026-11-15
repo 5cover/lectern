@@ -2,11 +2,13 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import type { ViteDevServer } from 'vite'
-import type { DeckMeta } from '../types'
+import type { Profile } from '../profiles/types'
+import type { ResolvedDeckMeta } from '../types'
 import { CLIENT_ENTRY, PACKAGE_ROOT, RENDER_MODULE, posix } from './paths'
 
 export interface RenderedDeck {
-  meta: DeckMeta
+  meta: ResolvedDeckMeta
+  profile: Profile
   slidesHtml: string
 }
 

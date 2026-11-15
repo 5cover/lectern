@@ -2,14 +2,15 @@ import type { Profile } from '../types'
 
 /**
  * ENGIE / Fluid profile — derived from the official "ENGIE PowerPoint Template".
- * Look lives in `engie.css` (imported by the client entry). This module holds
- * the Node-safe data: reveal defaults and the natural-language rulebook.
+ * Look lives in `engie.css` (Fluid + the template layer). This module holds
+ * the Node-safe data: stylesheet, reveal defaults and the natural-language rulebook.
  */
 export const engie: Profile = {
   name: 'engie',
   label: 'ENGIE / Fluid',
   description:
     'ENGIE corporate house style (Fluid design system): navy #17255F & ENGIE blue #007bc5, Fluid typography, 16:9.',
+  stylesheet: 'lectern/engie.css',
   reveal: {
     // 16:9 design canvas. Reveal scales this scene to the available viewport
     // while preserving its proportions.

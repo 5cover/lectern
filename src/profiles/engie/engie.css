@@ -8,6 +8,9 @@
  * Scoped under `.reveal.profile-engie`; the root class is set by the renderer.
  */
 
+@import '@engie-group/fluid-design-system/css';
+@import '@engie-group/fluid-design-tokens/css';
+
 .reveal.profile-engie {
   /* Navy is the template's primary; ENGIE blue (from Fluid) is the accent. */
   --lectern-navy: #17255f;
@@ -327,12 +330,6 @@ html.reveal-print .reveal.profile-engie .pdf-page > section.lectern-section-slid
   margin-top: 0.6em;
   padding: 0 var(--lectern-margin-x);
   font-weight: 400;
-}
-
-/* Reveal preserves the 16:9 design canvas; outside it, keep the cover's navy
-   instead of exposing the viewport's default white. */
-.reveal-viewport.profile-engie {
-  background-color: #17255f;
 }
 
 /* ---- Summary / agenda: numbered chapters in two columns ---- */

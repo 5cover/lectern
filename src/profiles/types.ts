@@ -18,6 +18,14 @@ export interface Profile {
   description: string
   /** reveal.js config defaults merged under any per-deck overrides. */
   reveal?: RevealConfig
+  /**
+   * The look: a stylesheet bundled into the deck's client after lectern's core
+   * CSS (reveal.js, code highlighting). Any specifier Vite can import from the
+   * project: a file URL (`new URL('./brand.css', import.meta.url)`), an
+   * absolute path, or a package path (`'my-brand/brand.css'`). Scope its rules
+   * under `.reveal.profile-<name>`.
+   */
+  stylesheet?: string | URL
   /** The doctrine: what a well-formed deck in this profile looks like. */
   rules: RuleGroup[]
 }

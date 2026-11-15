@@ -1,0 +1,76 @@
+/*
+ * Paper profile: scoped under `.reveal.profile-paper`, the root class the
+ * renderer sets from the profile's `name`. lectern ships reveal's core CSS
+ * only (no reveal theme), so the profile sets fonts and colours itself.
+ */
+
+.reveal.profile-paper {
+  /* Variables lectern's client runtime reads to theme Mermaid diagrams. */
+  --lectern-brand: #c0392b;
+  --lectern-brand-strong: #1a1a1a;
+  --lectern-ink: #1a1a1a;
+  --lectern-line: #cfc8bc;
+  --lectern-bg-soft: #f3efe6;
+
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  line-height: 1.4;
+  color: var(--lectern-ink);
+}
+
+/* The client also sets the profile class on reveal's viewport (the page background). */
+.reveal-viewport.profile-paper {
+  background-color: #faf8f3;
+}
+
+.reveal.profile-paper .slides {
+  text-align: left;
+}
+
+.reveal.profile-paper h1,
+.reveal.profile-paper h2 {
+  margin: 0 0 0.5em;
+  font-weight: 400;
+  line-height: 1.15;
+}
+.reveal.profile-paper h1 {
+  font-size: 2.2em;
+}
+.reveal.profile-paper h2 {
+  font-size: 1.5em;
+}
+
+.reveal.profile-paper .paper-cover {
+  text-align: center;
+}
+.reveal.profile-paper .paper-mark {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1em;
+}
+.reveal.profile-paper .paper-byline {
+  font-style: italic;
+  color: #6b655c;
+}
+
+.reveal.profile-paper .paper-slide h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 2px solid var(--lectern-brand);
+}
+
+.reveal.profile-paper pre.lectern-code {
+  font-size: 0.6em;
+}
+
+.reveal.profile-paper .lectern-footer {
+  position: fixed;
+  bottom: 0.75rem;
+  left: 1rem;
+  font-size: 14px;
+  color: #6b655c;
+}
+@media print {
+  .reveal.profile-paper .lectern-footer {
+    position: absolute;
+  }
+}

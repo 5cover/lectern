@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { Code, Columns, Deck, Mermaid, Notes, Raw, Stack, getProfile, renderDeck, renderToHtml } from '../src/index'
+import type { Profile } from '../src/index'
 import {
   Bullets,
   Deck as EngieDeck,
@@ -225,6 +226,42 @@ describe('profiles', () => {
     expect(getProfile('engie')?.label).toContain('ENGIE')
     expect(getProfile('nope')).toBeUndefined()
     expect(getProfile(undefined)?.name).toBe('engie')
+  })
+
+  it('accepts a user-defined profile object like a built-in one', () => {
+    const custom: Profile = {
+      name: 'acme',
+      label: 'ACME',
+      description: 'Test house style',
+      stylesheet: 'acme/brand.css',
+      reveal: { width: 1920, height: 1080, center: true },
+      rules: [],
+    }
+    const { meta, profile } = renderDeck(
+      <Deck title="t" profile={custom} reveal={{ center: false }}>
+        <section />
+      </Deck>
+    )
+    expect(profile).toBe(custom)
+    expect(meta.profile).toBe('acme')
+    expect(meta.reveal).toEqual({ width: 1920, height: 1080, center: false })
+    const html = renderToHtml(
+      <Deck title="t" profile={custom}>
+        <section />
+      </Deck>
+    )
+    expect(html).toContain('class="reveal profile-acme"')
+    expect(html).toContain('"profile":"acme"')
+  })
+
+  it('rejects an unknown profile name', () => {
+    expect(() =>
+      renderDeck(
+        <Deck title="t" profile={'nope' as never}>
+          <section />
+        </Deck>
+      )
+    ).toThrow('Unknown profile: "nope"')
   })
 
   it('the engie-bound <Deck> pins profile:"engie" without restating it', () => {

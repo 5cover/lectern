@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path'
 import { createServer, build as viteBuild } from 'vite'
 import { viteSingleFile } from 'vite-plugin-singlefile'
 import { htmlShell } from '../render/template'
-import { CLIENT_ENTRY, posix, presentAlias } from './paths'
+import { clientEntrySource, presentAlias } from './paths'
 import { fsAllow, renderDeckViaVite, type RenderedDeck } from './render'
 
 export interface BuildOptions {
@@ -33,11 +33,11 @@ export async function renderStatic(deckPath: string): Promise<RenderedDeck> {
 
 /**
  * Build a self-contained static deck. The slides are pre-rendered into
- * index.html; a single Vite pass bundles the client runtime (reveal + mermaid
- * + Fluid + theme) and, by default, inlines everything into one file.
+ * index.html; a single Vite pass bundles the client runtime (reveal + mermaid)
+ * with the profile's stylesheet and, by default, inlines everything into one file.
  */
 export async function build({ deckPath, outDir, singleFile = true }: BuildOptions): Promise<string> {
-  const { meta, slidesHtml } = await renderStatic(deckPath)
+  const { meta, profile, slidesHtml } = await renderStatic(deckPath)
 
   // The build root must sit inside the project so its `node_modules`
   // (preact, reveal.js, mermaid, fluid…) resolves during bundling.
@@ -45,8 +45,8 @@ export async function build({ deckPath, outDir, singleFile = true }: BuildOption
   mkdirSync(tmpBase, { recursive: true })
   const workDir = mkdtempSync(join(tmpBase, 'build-'))
   // A local entry that re-exports the package client entry (keeps its own
-  // relative CSS imports resolving from the real location).
-  writeFileSync(join(workDir, 'lectern-entry.ts'), `import ${JSON.stringify(posix(CLIENT_ENTRY))};\n`, 'utf8')
+  // relative CSS imports resolving from the real location) and the profile's stylesheet.
+  writeFileSync(join(workDir, 'lectern-entry.ts'), `${clientEntrySource(profile)}\n`, 'utf8')
   const clientTag = `<script type="module" src="./lectern-entry.ts"></script>`
   writeFileSync(
     join(workDir, 'index.html'),

@@ -22,8 +22,16 @@ export { renderDeck, renderToHtml } from './render/renderDeck'
 export type { RenderOptions } from './render/renderDeck'
 
 // Types.
-export type { Transition, ProfileName, DeckMeta, DeckProps, Slide as SlideNode, StyleEscapeHatch } from './types'
+export type {
+  Transition,
+  ProfileName,
+  DeckMeta,
+  ResolvedDeckMeta,
+  DeckProps,
+  Slide as SlideNode,
+  StyleEscapeHatch,
+} from './types'
 
 // Profiles (house styles: look + reveal config + rules).
-export { DEFAULT_PROFILE, getProfile, profileNames, profiles } from './profiles'
+export { DEFAULT_PROFILE, getProfile, profileNames, profiles, resolveProfile } from './profiles'
 export type { Profile, Rule, RuleGroup, RuleSeverity } from './profiles/types'

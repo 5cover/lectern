@@ -1,7 +1,7 @@
 import http from 'node:http'
 import { createServer } from 'vite'
 import { htmlShell } from '../render/template'
-import { CLIENT_ENTRY, posix, presentAlias } from './paths'
+import { clientEntrySource, presentAlias } from './paths'
 import { fsAllow, renderDeckViaVite } from './render'
 
 export interface DevOptions {
@@ -20,10 +20,9 @@ export async function dev({ deckPath, port }: DevOptions): Promise<void> {
     server: { middlewareMode: true, fs: { allow: fsAllow(deckPath) } },
   })
 
-  const clientTag = `<script type="module" src="/@fs/${posix(CLIENT_ENTRY)}"></script>`
-
   async function renderPage(url: string): Promise<string> {
-    const { meta, slidesHtml } = await renderDeckViaVite(server, deckPath)
+    const { meta, profile, slidesHtml } = await renderDeckViaVite(server, deckPath)
+    const clientTag = `<script type="module">${clientEntrySource(profile)}</script>`
     const html = htmlShell({ meta, slidesHtml, bodyScripts: clientTag, headTags: '' })
     return server.transformIndexHtml(url, html)
   }

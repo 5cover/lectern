@@ -7,13 +7,14 @@
 import { h } from 'preact'
 import { Deck as CoreDeck } from '../../components/Deck'
 import type { DeckProps } from '../../types'
+import { engie } from './profile'
 
 /**
- * ENGIE-bound deck root: pins `profile="engie"` so it never needs restating.
+ * ENGIE-bound deck root: pins the ENGIE profile so it never needs restating.
  * Returns a core `<Deck>` vnode (not a Fragment) so the renderer recognises it.
  */
 export function Deck(props: DeckProps) {
-  return h(CoreDeck, { profile: 'engie', ...props })
+  return h(CoreDeck, { profile: engie, ...props })
 }
 export { isDeck } from '../../components/Deck'
 

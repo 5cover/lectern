@@ -1,12 +1,13 @@
 import type { ComponentChildren, VNode } from 'preact'
 import { RevealConfig } from 'reveal.js'
+import type { Profile } from './profiles/types'
 
 /** reveal.js slide transition names. */
 export type Transition = 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom'
 
 /**
- * House-style profiles shipped with `lectern`. A profile bundles the look
- * (CSS + reveal config) and the doctrine (rules). Currently only ENGIE / Fluid.
+ * Names of the house-style profiles shipped with `lectern`, usable as a
+ * shorthand for their `Profile` object. Currently only ENGIE / Fluid.
  */
 export type ProfileName = 'engie'
 
@@ -26,14 +27,22 @@ export interface DeckMeta {
   author?: string
   /** Free-form date label, e.g. "Juin 2026". */
   date?: string
-  /** House-style profile to apply (look + reveal config + rules). Defaults to "engie". */
-  profile?: ProfileName
+  /**
+   * House-style profile to apply (look + reveal config + rules): a `Profile`
+   * object, yours or a built-in one, or a built-in profile's name. Defaults to "engie".
+   */
+  profile?: ProfileName | Profile
   /** Default slide transition. Defaults to "slide". */
   transition?: Transition
   /** Persistent footer text shown on every slide (e.g. confidentiality note). */
   footer?: string
   /** Extra reveal.js config, merged over the defaults. */
   reveal?: Partial<RevealConfig>
+}
+
+/** Deck metadata after rendering: the profile is resolved down to its name. */
+export interface ResolvedDeckMeta extends Omit<DeckMeta, 'profile'> {
+  profile: string
 }
 
 export interface DeckProps extends DeckMeta {
