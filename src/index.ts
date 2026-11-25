@@ -1,6 +1,6 @@
-// Core `lectern` API — the render engine + neutral, profile-agnostic components.
+// Core `@5cover/lectern` API — the render engine + neutral, profile-agnostic components.
 // Philosophy-bearing components (slides, styled atoms) live in a profile,
-// e.g. `lectern/engie`.
+// e.g. `@5cover/lectern/engie`.
 
 export { Deck, isDeck } from './components/Deck'
 

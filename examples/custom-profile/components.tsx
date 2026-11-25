@@ -1,9 +1,9 @@
-import { Deck as CoreDeck, cx } from 'lectern'
-import type { DeckProps, StyleEscapeHatch } from 'lectern'
+import { Deck as CoreDeck, cx } from '@5cover/lectern'
+import type { DeckProps, StyleEscapeHatch } from '@5cover/lectern'
 import { paper } from './profile'
 import mark from './mark.svg'
 
-/** Paper-bound deck root: pins the profile, exactly like `lectern/engie`'s `Deck`. */
+/** Paper-bound deck root: pins the profile, exactly like `@5cover/lectern/engie`'s `Deck`. */
 export function Deck(props: DeckProps) {
   return <CoreDeck profile={paper} {...props} />
 }

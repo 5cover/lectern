@@ -20,7 +20,7 @@ export async function renderStatic(deckPath: string): Promise<RenderedDeck> {
     root: process.cwd(),
     logLevel: 'warn',
     appType: 'custom',
-    esbuild: { jsx: 'automatic', jsxImportSource: 'lectern' },
+    esbuild: { jsx: 'automatic', jsxImportSource: '@5cover/lectern' },
     resolve: { alias: presentAlias() },
     server: { middlewareMode: true, fs: { allow: fsAllow(deckPath) } },
   })
@@ -60,7 +60,7 @@ export async function build({ deckPath, outDir, singleFile = true }: BuildOption
       configFile: false,
       root: workDir,
       logLevel: 'warn',
-      esbuild: { jsx: 'automatic', jsxImportSource: 'lectern' },
+      esbuild: { jsx: 'automatic', jsxImportSource: '@5cover/lectern' },
       resolve: { alias: presentAlias() },
       plugins: singleFile ? [viteSingleFile()] : [],
       build: {

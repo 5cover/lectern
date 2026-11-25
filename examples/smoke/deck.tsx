@@ -1,5 +1,5 @@
-import { Code, Columns, Mermaid } from 'lectern'
-import { Deck, TitleSlide, SectionSlide, Slide, Summary, Bullets, Metric, Timeline } from 'lectern/engie'
+import { Code, Columns, Mermaid } from '@5cover/lectern'
+import { Deck, TitleSlide, SectionSlide, Slide, Summary, Bullets, Metric, Timeline } from '@5cover/lectern/engie'
 
 // Minimal tour of the component set (core primitives + ENGIE profile components).
 export default (

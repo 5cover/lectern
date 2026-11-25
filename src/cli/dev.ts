@@ -15,7 +15,7 @@ export async function dev({ deckPath, port }: DevOptions): Promise<void> {
     root: process.cwd(),
     logLevel: 'warn',
     appType: 'custom',
-    esbuild: { jsx: 'automatic', jsxImportSource: 'lectern' },
+    esbuild: { jsx: 'automatic', jsxImportSource: '@5cover/lectern' },
     resolve: { alias: presentAlias() },
     server: { middlewareMode: true, fs: { allow: fsAllow(deckPath) } },
   })

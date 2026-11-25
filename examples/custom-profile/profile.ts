@@ -1,4 +1,4 @@
-import type { Profile } from 'lectern'
+import type { Profile } from '@5cover/lectern'
 
 /**
  * A house style defined outside lectern: same shape, same treatment as the

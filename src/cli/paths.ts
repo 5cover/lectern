@@ -67,6 +67,11 @@ export function clientEntrySource(profile: Profile): string {
  */
 export function presentAlias(): Array<{ find: RegExp; replacement: string }> {
   return [
+    { find: /^@5cover\/lectern$/, replacement: INDEX_MODULE },
+    { find: /^@5cover\/lectern\/jsx-runtime$/, replacement: JSX_MODULE },
+    { find: /^@5cover\/lectern\/jsx-dev-runtime$/, replacement: JSX_MODULE },
+    { find: /^@5cover\/lectern\/engie$/, replacement: ENGIE_MODULE },
+    { find: /^@5cover\/lectern\/engie\.css$/, replacement: ENGIE_STYLESHEET },
     { find: /^lectern\/jsx-runtime$/, replacement: JSX_MODULE },
     { find: /^lectern\/jsx-dev-runtime$/, replacement: JSX_MODULE },
     { find: /^lectern\/engie$/, replacement: ENGIE_MODULE },

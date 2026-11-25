@@ -10,7 +10,7 @@ export const engie: Profile = {
   label: 'ENGIE / Fluid',
   description:
     'ENGIE corporate house style (Fluid design system): navy #17255F & ENGIE blue #007bc5, Fluid typography, 16:9.',
-  stylesheet: 'lectern/engie.css',
+  stylesheet: '@5cover/lectern/engie.css',
   reveal: {
     // 16:9 design canvas. Reveal scales this scene to the available viewport
     // while preserving its proportions.

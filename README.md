@@ -18,12 +18,12 @@
 
 Write a deck as a `.tsx` file whose default export is a `<Deck>`:
 
-Neutral primitives come from `lectern`; the philosophy-bearing slides and styled atoms come from a **profile** (`lectern/engie`) — see [Profiles](#profiles).
+Neutral primitives come from `@5cover/lectern`; the philosophy-bearing slides and styled atoms come from a **profile** (`@5cover/lectern/engie`) — see [Profiles](#profiles).
 
 ```tsx
 // deck.tsx
-import { Columns, Code, Mermaid, Notes } from 'lectern'
-import { Deck, TitleSlide, SectionSlide, Slide, Summary, Bullets, Metric, Timeline } from 'lectern/engie'
+import { Columns, Code, Mermaid, Notes } from '@5cover/lectern'
+import { Deck, TitleSlide, SectionSlide, Slide, Summary, Bullets, Metric, Timeline } from '@5cover/lectern/engie'
 
 export default (
   <Deck title="Alternance Engie — Point d'étape" author="Raphaël Bardini" date="Juin 2026" footer="Confidentiel">
@@ -95,18 +95,18 @@ Extend Lectern's authoring config in your project's `tsconfig.json`:
 
 ```jsonc
 {
-  "extends": "lectern/tsconfig.json",
+  "extends": "@5cover/lectern/tsconfig.json",
   "include": ["deck.tsx"],
 }
 ```
 
-The exported config sets Lectern's automatic JSX runtime and Vite asset typings, so imports such as `./diagram.svg?raw` are typed as strings. Keep your project's own target, strictness, module settings, and include paths alongside the `extends` entry. If you override `compilerOptions.types`, include `lectern/vite-env` in that list. Typecheck the project configuration with `pnpm exec tsc --noEmit`; do not pass a source filename directly to `tsc`, because that bypasses `tsconfig.json`.
+The exported config sets Lectern's automatic JSX runtime and Vite asset typings, so imports such as `./diagram.svg?raw` are typed as strings. Keep your project's own target, strictness, module settings, and include paths alongside the `extends` entry. If you override `compilerOptions.types`, include `@5cover/lectern/vite-env` in that list. Typecheck the project configuration with `pnpm exec tsc --noEmit`; do not pass a source filename directly to `tsc`, because that bypasses `tsconfig.json`.
 
 Components render to static HTML at build time (via `preact-render-to-string`); there is no Preact runtime in the browser. reveal.js and Mermaid run client-side on the produced HTML.
 
 ### Components
 
-Components split by **who owns the layout decision**. Neutral, structure-only primitives live in core `lectern`; the philosophy-bearing slides and opinionated atoms live in a profile (`lectern/engie`). A profile's CSS styles everything.
+Components split by **who owns the layout decision**. Neutral, structure-only primitives live in core `@5cover/lectern`; the philosophy-bearing slides and opinionated atoms live in a profile (`@5cover/lectern/engie`). A profile's CSS styles everything.
 
 **Core `lectern`** (neutral — reusable across profiles):
 
@@ -117,7 +117,7 @@ Components split by **who owns the layout decision**. Neutral, structure-only pr
 | `<Code lang lineNumbers>` / `<Mermaid>`                                     | Highlighted code · Mermaid diagram               |
 | `<Notes>` / `<Fragment>` / `<Raw html>`                                     | Speaker notes · fragment · raw-HTML escape hatch |
 
-**`lectern/engie`** (the ENGIE authoring surface — template-accurate):
+**`@5cover/lectern/engie`** (the ENGIE authoring surface — template-accurate):
 
 | Component                                            | Purpose                                             |
 | ---------------------------------------------------- | --------------------------------------------------- |
@@ -158,7 +158,7 @@ lectern rules [profile | deck.tsx]   # print a profile's guidelines (default: en
 
 A **profile** is a deck authoring _philosophy_, not just a skin. It owns:
 
-- its **component set** — the slides/atoms whose layout embodies the house style (`lectern/engie` exports these; importing them selects the profile);
+- its **component set** — the slides/atoms whose layout embodies the house style (`@5cover/lectern/engie` exports these; importing them selects the profile);
 - its **look** — a `.profile-<name>`-scoped stylesheet that also styles the neutral core components (core `lectern` ships only reveal.js's base CSS and a code-highlighting theme; the `engie` stylesheet brings Fluid);
 - its **reveal config** (aspect ratio, transitions, `center`, …);
 - its **rules** — a natural-language rulebook (documentation today; no linting yet).
@@ -177,7 +177,7 @@ A profile does not have to live in this package. Yours goes through exactly the 
 
 ```ts
 // profile.ts
-import type { Profile } from 'lectern'
+import type { Profile } from '@5cover/lectern'
 
 export const paper: Profile = {
   name: 'paper', // root class `.profile-paper`
@@ -193,12 +193,12 @@ export const paper: Profile = {
 
 **2. The stylesheet**: scope everything under `.reveal.profile-<name>`. Lectern ships no reveal theme, so set fonts, colours and the type scale yourself. The client also adds the profile class to reveal's viewport (`.reveal-viewport.profile-<name>`, the area around the scaled canvas). The runtime reads these custom properties from `.reveal` to theme Mermaid diagrams: `--lectern-brand`, `--lectern-brand-strong`, `--lectern-ink`, `--lectern-line`, `--lectern-bg-soft`. Core components emit these classes for you to style: `lectern-columns`, `lectern-col`, `lectern-stack`, `lectern-grid`, `lectern-spacer`, `lectern-code`, `mermaid`, `lectern-raw`, `lectern-infograph-*`, and the deck footer `lectern-footer` / `lectern-footer-brand`. Layout primitives set their grid geometry inline, so a profile only adds spacing and looks.
 
-**3. Components and a bound `Deck`**: pin the profile once, like `lectern/engie` does, and write the slides that embody your house style. Each slide is a `<section>`.
+**3. Components and a bound `Deck`**: pin the profile once, like `@5cover/lectern/engie` does, and write the slides that embody your house style. Each slide is a `<section>`.
 
 ```tsx
 // components.tsx
-import { Deck as CoreDeck } from 'lectern'
-import type { DeckProps } from 'lectern'
+import { Deck as CoreDeck } from '@5cover/lectern'
+import type { DeckProps } from '@5cover/lectern'
 import { paper } from './profile'
 import mark from './mark.svg'
 
@@ -216,11 +216,11 @@ export function Cover({ title }: { title: string }) {
 }
 ```
 
-Assets imported by your components (like `mark.svg` above) are inlined into the built deck. Shared helpers for building components are exported from `lectern`: `cx` and the `StyleEscapeHatch`, `Transition` and `DeckProps` types.
+Assets imported by your components (like `mark.svg` above) are inlined into the built deck. Shared helpers for building components are exported from `@5cover/lectern`: `cx` and the `StyleEscapeHatch`, `Transition` and `DeckProps` types.
 
-**4. Use it**: decks import your `Deck` and components; every command (`dev`, `build`, `serve`, `pdf`) picks the profile up from the deck, and `lectern rules deck.tsx` prints its rulebook. You can also skip the bound `Deck` and pass the object directly: `<Deck profile={paper}>` with `Deck` from `lectern`.
+**4. Use it**: decks import your `Deck` and components; every command (`dev`, `build`, `serve`, `pdf`) picks the profile up from the deck, and `lectern rules deck.tsx` prints its rulebook. You can also skip the bound `Deck` and pass the object directly: `<Deck profile={paper}>` with `Deck` from `@5cover/lectern`.
 
-Shared, genuinely-neutral atoms can be lifted into core `lectern` once a second profile shows what's actually common.
+Shared, genuinely-neutral atoms can be lifted into core `@5cover/lectern` once a second profile shows what's actually common.
 
 ## How it works
 

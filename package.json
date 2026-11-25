@@ -1,5 +1,5 @@
 {
-  "name": "lectern",
+  "name": "@5cover/lectern",
   "version": "0.1.0",
   "description": "Author professional reveal.js slide decks as typed TSX components, styled by the ENGIE Fluid design system.",
   "type": "module",
@@ -38,11 +38,15 @@
     "tsconfig.authoring.json",
     "vite-env.d.ts"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "prepublish": "tsup && vitest run",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "lectern": "node --import tsx ./src/cli/index.ts"

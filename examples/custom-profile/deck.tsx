@@ -1,4 +1,4 @@
-import { Code, Columns, Mermaid, Notes } from 'lectern'
+import { Code, Columns, Mermaid, Notes } from '@5cover/lectern'
 import { Cover, Deck, Slide } from './components'
 
 // A deck in a profile defined entirely in this folder (see profile.ts).

@@ -1,11 +1,11 @@
-import { Columns, Stack, Grid, Code, Mermaid, Notes } from 'lectern'
-import { Deck, TitleSlide, SectionSlide, Slide, Summary, Bullets, Metric, Timeline, Quote, Lead } from 'lectern/engie'
+import { Columns, Stack, Grid, Code, Mermaid, Notes } from '@5cover/lectern'
+import { Deck, TitleSlide, SectionSlide, Slide, Summary, Bullets, Metric, Timeline, Quote, Lead } from '@5cover/lectern/engie'
 
 /**
  * Point d'étape — alternance ENGIE (mai–juin 2026).
  * Projet : chaîne de validation des demandes de parrainage / mécénat
  * (Sponsorship · Membership · Patronage) sur Microsoft Power Platform.
- * Authored with the ENGIE profile (`lectern/engie`).
+ * Authored with the ENGIE profile (`@5cover/lectern/engie`).
  */
 export default (
   <Deck

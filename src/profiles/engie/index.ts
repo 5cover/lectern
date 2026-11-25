@@ -1,8 +1,8 @@
 // The ENGIE authoring surface. Import everything you need for an ENGIE deck
-// from here (`lectern/engie`); neutral primitives come from `lectern`.
+// from here (`@5cover/lectern/engie`); neutral primitives come from `@5cover/lectern`.
 //
-//   import { Deck, TitleSlide, Slide, Metric } from 'lectern/engie'
-//   import { Columns, Code, Mermaid } from 'lectern'
+//   import { Deck, TitleSlide, Slide, Metric } from '@5cover/lectern/engie'
+//   import { Columns, Code, Mermaid } from '@5cover/lectern'
 
 import { h } from 'preact'
 import { Deck as CoreDeck } from '../../components/Deck'
