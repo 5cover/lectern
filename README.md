@@ -233,7 +233,7 @@ flowchart LR
   H --> O["dev / static / PDF"]
 ```
 
-The `engie` stylesheet (`src/profiles/engie/engie.css`) builds on Fluid's `--nj-*` design tokens, so an ENGIE deck is on-brand with zero per-slide styling.
+The `@5cover/lectern/engie.css` stylesheet builds on Fluid's `--nj-*` design tokens, so an ENGIE deck is on-brand with zero per-slide styling.
 
 ## Notes
 

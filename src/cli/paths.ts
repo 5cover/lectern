@@ -45,7 +45,10 @@ const ENGIE_MODULE = firstExisting(
   join(BASE, 'profiles', 'engie', 'index.ts'),
   join(PACKAGE_ROOT, 'dist', 'profiles', 'engie', 'index.js')
 )
-const ENGIE_STYLESHEET = join(PACKAGE_ROOT, 'src', 'profiles', 'engie', 'engie.css')
+const ENGIE_STYLESHEET = firstExisting(
+  join(PACKAGE_ROOT, 'src', 'profiles', 'engie', 'engie.css'),
+  join(PACKAGE_ROOT, 'dist', 'profiles', 'engie', 'engie.css')
+)
 
 /**
  * Source of the browser entry module: lectern's client runtime, then the

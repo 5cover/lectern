@@ -30,11 +30,10 @@
       "types": "./dist/profiles/engie/index.d.ts",
       "import": "./dist/profiles/engie/index.js"
     },
-    "./engie.css": "./src/profiles/engie/engie.css"
+    "./engie.css": "./dist/profiles/engie/engie.css"
   },
   "files": [
     "dist",
-    "src",
     "tsconfig.authoring.json",
     "vite-env.d.ts"
   ],
@@ -42,11 +41,11 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && node scripts/copy-engie-css.js",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublish": "tsup && vitest run",
+    "prepublish": "pnpm build && vitest run",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "lectern": "node --import tsx ./src/cli/index.ts"
